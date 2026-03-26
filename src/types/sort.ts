@@ -54,7 +54,7 @@ export type SortOperation = 'compare' | 'swap' | 'overwrite' | 'pivot' | 'done';
  * Every frame must be treated as immutable.
  *
  * @invariant
- * - `array` must always be a new snapshot (no shared references)
+ * - `array` must always be a new snapshot (no shared references to trigger re render or else react will not consider it new if the reference is same)
  * - `activeIndices` must correspond to the current operation
  */
 export interface SortFrame {
@@ -62,13 +62,13 @@ export interface SortFrame {
    * Snapshot of the array at this step.
    * Must be immutable (cloned before emitting).
    */
-  readonly array: readonly number[];
+  readonly array: readonly number[]; //we can neither change the existing array or reassign this property with new array
 
   /**
    * Indices currently being operated on.
    * Used for highlighting bars.
    */
-  readonly activeIndices: readonly number[];
+  readonly activeIndices: readonly number[]; //we can neither change the existing array or reassign this property with new array
 
   /**
    * Type of operation performed in this frame.
@@ -96,11 +96,19 @@ export interface SortFrame {
  *
  * 1. Evaluation (Return Type): Calling an algorithm function (e.g., `bubbleSort()`)
  * does NOT execute the sorting logic. It immediately returns a control object 
- * of type `SortGenerator`.
+ * of type `SortGenerator`. (See specific algorithm documentation).
  * * 2. Iteration (Yield Type): When the consuming engine calls `.next()` on this 
  * control object, the algorithm executes until the next `yield` statement. 
- * The `AsyncGenerator<SortFrame, void, unknown>` signature guarantees that 
- * every yielded payload strictly matches the `SortFrame` interface.
+ *
+ * ASYNC GENERATOR TYPE PARAMETERS (`AsyncGenerator<YieldType, ReturnType, NextType>`):
+ * The signature `AsyncGenerator<SortFrame, void, unknown>` enforces three strict contracts:
+ * * - Yield Type (`SortFrame`): Guarantees that every `yield` statement emits a payload 
+ * that strictly matches the `SortFrame` interface.
+ * - Return Type (`void`): Indicates that the algorithm finishes execution naturally 
+ * without returning a final computed value via the `return` keyword.
+ * - Next Type (`unknown`): Enforces that the consuming engine cannot inject state 
+ * back into the algorithm via `.next(injectedData)`. The data flow remains 
+ * strictly unidirectional (Algorithm -> Engine -> UI).
  *
  * @example
  * // 1. Returns SortGenerator (execution has not started)
@@ -114,7 +122,8 @@ export type SortGenerator = AsyncGenerator<SortFrame, void, unknown>;
 
 /**
  * Describes a pluggable sorting algorithm.
- *
+ * This is common for all algorithms it does not care if the selected algorithm is bubble merge or anything else.
+ * It just guarantees that a selected algorithm will provide the following information to use.
  * @remarks
  * Allows algorithms to be dynamically selected and executed
  * without coupling to the UI or engine implementation.
@@ -137,7 +146,7 @@ export interface SortAlgorithm {
   /**
    * Entry point for algorithm execution.
    */
-  generator: (array: readonly number[]) => SortGenerator;
+  generator: (array: readonly number[]) =>   SortGenerator;
 }
 
 /**
