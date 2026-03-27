@@ -45,7 +45,7 @@ export async function* heapSort(input: readonly number[]): SortGenerator {
         activeIndices: [left, largest],
         operation: 'compare',
       } satisfies SortFrame;
-      if (arr[left] > arr[largest]){
+      if (arr[left] > arr[largest]) {
         largest = left;
       }
     }
@@ -56,10 +56,10 @@ export async function* heapSort(input: readonly number[]): SortGenerator {
       yield {
         array: [...arr],
         activeIndices: [right, largest],
-        operation: 'compare'
+        operation: 'compare',
       } satisfies SortFrame;
 
-      if (arr[right] > arr[largest]){
+      if (arr[right] > arr[largest]) {
         largest = right;
       }
     }
@@ -69,10 +69,10 @@ export async function* heapSort(input: readonly number[]): SortGenerator {
       [arr[i], arr[largest]] = [arr[largest], arr[i]];
 
       //SWAP FRAME
-      yield{
+      yield {
         array: [...arr],
         activeIndices: [i, largest],
-        operation: 'swap'
+        operation: 'swap',
       } satisfies SortFrame;
 
       //Recursively heapify the affected sub-tree
@@ -81,29 +81,29 @@ export async function* heapSort(input: readonly number[]): SortGenerator {
   }
 
   //Phase 1: Build the max heap(start from the last non-leaf node and go up)
-  for (let i = Math.floor(n/2) - 1; i>=0; --i){
-    yield* heapify(n,i);
+  for (let i = Math.floor(n / 2) - 1; i >= 0; --i) {
+    yield* heapify(n, i);
   }
 
   //Phase 2: Extract elements one by one from the heap
-  for (let i = n - 1; i>=0; --i){
+  for (let i = n - 1; i >= 0; --i) {
     [arr[0], arr[i]] = [arr[i], arr[0]];
 
-    yield{
+    yield {
       array: [...arr],
-      activeIndices: [0,i],
-      operation: 'swap'
+      activeIndices: [0, i],
+      operation: 'swap',
     } satisfies SortFrame;
 
     //Call max heapify on the reduced heap to restore the root
-    yield* heapify(i,0);
+    yield* heapify(i, 0);
   }
 
   //Final frame signals to the engine that the algorithm has completed
   yield {
     array: [...arr],
     activeIndices: [],
-    operation: 'done'
+    operation: 'done',
   } satisfies SortFrame;
 }
 
@@ -120,4 +120,3 @@ export const heapSortAlgorithm = {
   },
   generator: heapSort,
 };
-

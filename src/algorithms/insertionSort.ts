@@ -19,28 +19,28 @@ export async function* insertionSort(input: readonly number[]): SortGenerator {
   const arr = [...input];
   const n = arr.length;
 
-  for (let i = 1; i<n; ++i){
+  for (let i = 1; i < n; ++i) {
     let j = i;
 
     while (j > 0) {
       //COMPARISON FRAME
       //Highlight the current element and its left neighbor
-      yield{
+      yield {
         array: [...arr],
-        activeIndices: [j-1, j],
+        activeIndices: [j - 1, j],
         operation: 'compare',
       } satisfies SortFrame;
 
-      if (arr[j-1] > arr[j]){
+      if (arr[j - 1] > arr[j]) {
         //Perform the swap in local memory
-        [arr[j-1], arr[j]] = [arr[j],arr[j-1]];
+        [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
 
         //SWAP FRAME
         //Execution pauses here to show the element sliding left
 
         yield {
           array: [...arr],
-          activeIndices: [j-1, j],
+          activeIndices: [j - 1, j],
           operation: 'swap',
         } satisfies SortFrame;
 
@@ -56,7 +56,7 @@ export async function* insertionSort(input: readonly number[]): SortGenerator {
   yield {
     array: [...arr],
     activeIndices: [],
-    operation: 'done'
+    operation: 'done',
   } satisfies SortFrame;
 }
 
@@ -71,5 +71,5 @@ export const insertionSortAlgorithm = {
     average: 'O(n^2)',
     worst: 'O(n^2)',
   },
-  generator: insertionSort
-}
+  generator: insertionSort,
+};

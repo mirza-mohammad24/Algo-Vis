@@ -22,7 +22,7 @@ import type { SortFrame, SortGenerator } from '../types/sort.ts';
  * @param input - The initial read-only array to be sorted.
  * @returns A control object of type `SortGenerator`.
  */
-export async function* countingSort(input: readonly number[]) : SortGenerator {
+export async function* countingSort(input: readonly number[]): SortGenerator {
   const arr = [...input];
   const n = arr.length;
 
@@ -30,12 +30,12 @@ export async function* countingSort(input: readonly number[]) : SortGenerator {
 
   //Phase 1: Find the maximum value in the array to size our frequency buckets
   let max = arr[0];
-  for (let i = 0; i<n; ++i) {
+  for (let i = 0; i < n; ++i) {
     //COMPARISON FRAME
-    yield{
+    yield {
       array: [...arr],
       activeIndices: [i],
-      operation: 'compare'
+      operation: 'compare',
     } satisfies SortFrame;
 
     if (arr[i] > max) {
@@ -47,12 +47,12 @@ export async function* countingSort(input: readonly number[]) : SortGenerator {
   const count = new Array(max + 1).fill(0);
 
   //Phase 2: Count the occurrences of each exact value
-  for (let i = 0; i<n; i++){
+  for (let i = 0; i < n; i++) {
     //COMPARISON FRAME (Scanning to Count)
     yield {
       array: [...arr],
       activeIndices: [i],
-      operation: 'compare'
+      operation: 'compare',
     } satisfies SortFrame;
 
     count[arr[i]]++;
@@ -60,7 +60,7 @@ export async function* countingSort(input: readonly number[]) : SortGenerator {
 
   //Phase 3: Reconstruct the sorted array by overwriting from left to right
   let index = 0;
-  for (let i = 0; i<=max; ++i){
+  for (let i = 0; i <= max; ++i) {
     while (count[i] > 0) {
       arr[index] = i;
 
@@ -68,7 +68,7 @@ export async function* countingSort(input: readonly number[]) : SortGenerator {
       yield {
         array: [...arr],
         activeIndices: [index],
-        operation: 'overwrite'
+        operation: 'overwrite',
       } satisfies SortFrame;
       index++;
       count[i]--;
@@ -79,7 +79,7 @@ export async function* countingSort(input: readonly number[]) : SortGenerator {
   yield {
     array: [...arr],
     activeIndices: [],
-    operation: 'done'
+    operation: 'done',
   } satisfies SortFrame;
 }
 

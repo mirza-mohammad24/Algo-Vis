@@ -95,19 +95,19 @@ export interface SortFrame {
  * There is a strict separation between the function's evaluation type and its iteration type.
  *
  * 1. Evaluation (Return Type): Calling an algorithm function (e.g., `bubbleSort()`)
- * does NOT execute the sorting logic. It immediately returns a control object 
+ * does NOT execute the sorting logic. It immediately returns a control object
  * of type `SortGenerator`. (See specific algorithm documentation).
- * * 2. Iteration (Yield Type): When the consuming engine calls `.next()` on this 
- * control object, the algorithm executes until the next `yield` statement. 
+ * * 2. Iteration (Yield Type): When the consuming engine calls `.next()` on this
+ * control object, the algorithm executes until the next `yield` statement.
  *
  * ASYNC GENERATOR TYPE PARAMETERS (`AsyncGenerator<YieldType, ReturnType, NextType>`):
  * The signature `AsyncGenerator<SortFrame, void, unknown>` enforces three strict contracts:
- * * - Yield Type (`SortFrame`): Guarantees that every `yield` statement emits a payload 
+ * * - Yield Type (`SortFrame`): Guarantees that every `yield` statement emits a payload
  * that strictly matches the `SortFrame` interface.
- * - Return Type (`void`): Indicates that the algorithm finishes execution naturally 
+ * - Return Type (`void`): Indicates that the algorithm finishes execution naturally
  * without returning a final computed value via the `return` keyword.
- * - Next Type (`unknown`): Enforces that the consuming engine cannot inject state 
- * back into the algorithm via `.next(injectedData)`. The data flow remains 
+ * - Next Type (`unknown`): Enforces that the consuming engine cannot inject state
+ * back into the algorithm via `.next(injectedData)`. The data flow remains
  * strictly unidirectional (Algorithm -> Engine -> UI).
  *
  * @example
@@ -146,7 +146,7 @@ export interface SortAlgorithm {
   /**
    * Entry point for algorithm execution.
    */
-  generator: (array: readonly number[]) =>   SortGenerator;
+  generator: (array: readonly number[]) => SortGenerator;
 }
 
 /**

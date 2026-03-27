@@ -6,9 +6,8 @@
  * Maps user input directly to the engine's exposed API methods.
  */
 
-
-import { useState, useEffect } from "react";
-import type { SortAlgorithm } from "../../types/sort.ts";
+import { useState, useEffect } from 'react';
+import type { SortAlgorithm } from '../../types/sort.ts';
 interface ControlProps {
   status: 'idle' | 'running' | 'paused' | 'completed';
   arraySize: number;
@@ -48,14 +47,13 @@ export function Controls({
     setLocalSize(arraySize.toString());
   }, [arraySize]);
 
-
   //The Clamping and commit functions
   const commitSize = () => {
     let parsed = parseInt(localSize, 10);
     if (isNaN(parsed)) parsed = 150; // default fallback
 
     //Hard Clamp: Minimum 10, Maximum 1000
-    const clamped = Math.max(10, Math.min(parsed,1000));
+    const clamped = Math.max(10, Math.min(parsed, 1000));
 
     setLocalSize(clamped.toString()); //Updating the text box
     onSizeChange(clamped); //Send the safe value to the engine
@@ -70,14 +68,14 @@ export function Controls({
 
     setLocalSpeed(clamped.toString());
     onSpeedChange(clamped);
-  }
+  };
 
   //Allow user to press Enter to commit their typed values
   const handleKeyDown = (e: React.KeyboardEvent, commitFn: () => void) => {
-    if (e.key === 'Enter'){
+    if (e.key === 'Enter') {
       commitFn();
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-6 p-4 bg-white rounded-lg shadow-sm border-slate-200">
@@ -114,16 +112,17 @@ export function Controls({
 
       {/* Bottom Row: Sliders & Number Inputs */}
       <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700">
-
         {/*Algorithm Selector*/}
         <div className="flex items-center gap-3">
-          <label htmlFor="algo-select" className="w-20">Algorithm</label>
+          <label htmlFor="algo-select" className="w-20">
+            Algorithm
+          </label>
           <select
             id="algo-select"
             value={selectedAlgorithm.name}
             disabled={isRunning}
             onChange={(e) => {
-              const selected = algorithms.find(a => a.name == e.target.value);
+              const selected = algorithms.find((a) => a.name == e.target.value);
               if (selected) onAlgorithmChange(selected);
             }}
             className="w-40 px-2 py-1.5 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -149,8 +148,8 @@ export function Controls({
             value={localSize}
             disabled={isRunning} // Locked while running to prevent stale closure confusion
             onChange={(e) => {
-              setLocalSize(e.target.value)
-              onSizeChange(Number(e.target.value))
+              setLocalSize(e.target.value);
+              onSizeChange(Number(e.target.value));
             }}
             className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           />

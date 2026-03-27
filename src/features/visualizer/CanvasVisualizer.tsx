@@ -43,8 +43,14 @@ export function CanvasVisualizer({ array, activeIndices, operation }: CanvasVisu
   // Reference to the actual DOM node for the Canvas API
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // OPTIMIZATION 1: Calculate the maximum value only once per array, not at 60fps
-  const maxVal = useMemo(() => Math.max(...array), [array]);
+  // OPTIMIZATION: Calculate the maximum value only once per array, not at 60fps
+  const maxVal = useMemo(() => {
+    let max = 0;
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] > max) max = array[i];
+    }
+    return max;
+  }, [array]);
 
   /**
    * THE PAINT CYCLE

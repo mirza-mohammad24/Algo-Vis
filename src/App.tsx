@@ -5,7 +5,7 @@
  * The root component of the Sorting Visualizer application.
  */
 
-import { Visualizer } from "./features/visualizer/Visualizer.tsx";
+import { Visualizer } from './features/visualizer/Visualizer.tsx';
 
 function App() {
   return (

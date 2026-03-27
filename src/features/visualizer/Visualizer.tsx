@@ -25,12 +25,13 @@ import { radixSortAlgorithm } from '../../algorithms/radixSort.ts';
 const ALGORITHMS: SortAlgorithm[] = [
   bubbleSortAlgorithm,
   selectionSortAlgorithm,
-  insertionSortAlgorithm,mergeSortAlgorithm,
+  insertionSortAlgorithm,
+  mergeSortAlgorithm,
   quickSortAlgorithm,
   heapSortAlgorithm,
   countingSortAlgorithm,
-  radixSortAlgorithm
-]
+  radixSortAlgorithm,
+];
 
 /**
  * Utility to generate a random array.
@@ -71,10 +72,13 @@ export function Visualizer() {
     reset(generateArray(arraySize));
   }, [arraySize, reset]);
 
-  const handleAlgorithmChange = useCallback((newAlgo: SortAlgorithm) => {
-    setCurrentAlgorithm(newAlgo);
-    reset(generateArray(arraySize));
-  }, [arraySize, reset]);
+  const handleAlgorithmChange = useCallback(
+    (newAlgo: SortAlgorithm) => {
+      setCurrentAlgorithm(newAlgo);
+      reset(generateArray(arraySize));
+    },
+    [arraySize, reset]
+  );
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
