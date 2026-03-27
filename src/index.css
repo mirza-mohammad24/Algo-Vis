@@ -1,5 +1,18 @@
 @import 'tailwindcss';
 
+/* ── Remove native spin-buttons from ALL number inputs globally ── */
+/* The Controls component also applies Tailwind's [appearance:textfield] utility  */
+/* but this CSS rule is the reliable cross-browser fallback.                      */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* for dark mode support */
 @custom-variant dark (&:where(.dark, .dark *));
 
