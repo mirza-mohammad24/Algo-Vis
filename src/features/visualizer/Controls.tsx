@@ -7,7 +7,7 @@
  */
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ControlProps {
   status: 'idle' | 'running' | 'paused' | 'completed';
@@ -30,17 +30,53 @@ export function Controls({
   onSpeedChange,
   onSizeChange,
 }: ControlProps) {
-
   const isRunning = status === 'running';
   const isDone = status === 'completed';
 
-  //Local state to keep the speed slider and number input synced
-  const [localSpeed, setLocalSpeed] = useState(50);
+  //Local state for text inputs so typing doesn't instantly crash the app
+  const [localSpeed, setLocalSpeed] = useState('50');
+  const [localSize, setLocalSize] = useState(arraySize.toString());
 
+  // Keep local text boxes synced if the app changes the size externally (e.g., clicking Reset)
+  useEffect(() => {
+    setLocalSize(arraySize.toString());
+  }, [arraySize]);
+
+
+  //The Clamping and commit functions
+  const commitSize = () => {
+    let parsed = parseInt(localSize, 10);
+    if (isNaN(parsed)) parsed = 150; // default fallback
+
+    //Hard Clamp: Minimum 10, Maximum 1000
+    const clamped = Math.max(10, Math.min(parsed,1000));
+
+    setLocalSize(clamped.toString()); //Updating the text box
+    onSizeChange(clamped); //Send the safe value to the engine
+  };
+
+  const commitSpeed = () => {
+    let parsed = parseInt(localSpeed, 10);
+    if (isNaN(parsed)) parsed = 50; //default fallback
+
+    //Hard Clamp: Minimum 0, Maximum 200
+    const clamped = Math.max(0, Math.min(parsed, 200));
+
+    setLocalSpeed(clamped.toString());
+    onSpeedChange(clamped);
+  }
+
+  //Allow user to press Enter to commit their typed values
+  const handleKeyDown = (e: React.KeyboardEvent, commitFn: () => void) => {
+    if (e.key === 'Enter'){
+      commitFn();
+    }
+  }
+  /** 
   const handleSpeedChange = (val: number) => {
     setLocalSpeed(val);
     onSpeedChange(val);
-  };
+  };*/
 
   return (
     <div className="flex flex-col gap-6 p-4 bg-white rounded-lg shadow-sm border-slate-200">
@@ -77,6 +113,7 @@ export function Controls({
 
       {/* Bottom Row: Sliders & Number Inputs */}
       <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700">
+
         {/* Size Control Group */}
         <div className="flex items-center gap-3">
           <label htmlFor="size-slider" className="w-12">
@@ -87,18 +124,25 @@ export function Controls({
             type="range"
             min="10"
             max="1000"
-            value={arraySize}
+            value={localSize}
             disabled={isRunning} // Locked while running to prevent stale closure confusion
-            onChange={(e) => onSizeChange(Number(e.target.value))}
+            onChange={(e) => {
+              setLocalSize(e.target.value)
+              onSizeChange(Number(e.target.value))
+            }}
             className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <input
             type="number"
             min="10"
             max="1000"
-            value={arraySize}
+            value={localSize}
             disabled={isRunning} // Locked while running
-            onChange={(e) => onSizeChange(Number(e.target.value))}
+            //Update the local text state only
+            onChange={(e) => setLocalSize(e.target.value)}
+            //Commit to the engine when user clicks enter
+            onBlur={commitSize}
+            onKeyDown={(e) => handleKeyDown(e, commitSize)}
             className="w-20 px-2 py-1 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
@@ -113,10 +157,12 @@ export function Controls({
             type="range"
             min="0"
             max="200"
-            step="5"
             value={localSpeed}
             disabled={isRunning} // Locked while running to prevent stale closure confusion
-            onChange={(e) => handleSpeedChange(Number(e.target.value))}
+            onChange={(e) => {
+              setLocalSpeed(e.target.value);
+              onSpeedChange(Number(e.target.value));
+            }}
             className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <input
@@ -125,7 +171,9 @@ export function Controls({
             max="200"
             value={localSpeed}
             disabled={isRunning} // Locked while running
-            onChange={(e) => handleSpeedChange(Number(e.target.value))}
+            onChange={(e) => setLocalSpeed(e.target.value)}
+            onBlur={commitSpeed}
+            onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
             className="w-20 px-2 py-1 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
