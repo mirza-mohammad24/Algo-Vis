@@ -9,15 +9,22 @@
  * asynchronous pauses, and state accumulation.
  *
  * @architecture
- * 1. STATE SEPARATION:
+ * 1. STATE SEPARATION (REACT PIPELINE):
  * - `useState` is used STRICTLY for data that the UI must render (array, metrics).
- * - `useRef` is used for internal engine controls (generator instance, run flag).
+ * - `useRef` is used for internal engine controls (generator instance, run flag, background math).
  * Mutating refs does not trigger re-renders, preventing the execution loop from collapsing.
  *
  * 2. THE TIME LOOP:
  * - React cannot natively "pause" rendering midway through a function.
  * - The `run` function solves this by using a `while` loop combined with `await sleep()`.
  * - It pulls a frame -> updates React -> sleeps -> repeats, creating an animation loop.
+ *
+ * 3. HIGH-THROUGHPUT FRAME SAMPLING (N=1000 SCALE):
+ * - To support massive datasets, computation is decoupled from rendering.
+ * - The engine computes thousands of operations instantly in the background.
+ * - It uses `metricsRef` to silently count operations without triggering React.
+ * - It only forces a React render (and a sleep pause) every Nth frame, allowing
+ * massive arrays to sort smoothly without freezing the browser's DOM thread.
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -63,6 +70,7 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
   // REACTIVE STATE (Triggers UI Renders)
   const [state, setState] = useState<SortState>({
     array: config.array,
+    activeIndices: [],
     status: 'idle',
     metrics: {
       comparisons: 0,
@@ -80,6 +88,19 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
   const generatorRef = useRef<ReturnType<SortAlgorithm['generator']> | null>(null);
   /** Master kill-switch for the execution loop. */
   const isRunningRef = useRef(false);
+
+  /**
+   * Background metrics tracking.
+   * Tracks accurate math during skipped frames so the UI doesn't lose count.
+   */
+  const metricsRef = useRef<SortMetrics>({
+    comparisons: 0,
+    swaps: 0,
+    overwrites: 0,
+  });
+
+  /** Tracks total operations to calculate when to trigger a render. */
+  const frameCounterRef = useRef(0);
 
   // CORE ENGINE LOGIC
 
@@ -108,22 +129,22 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
     }));
 
     while (isRunningRef.current && generatorRef.current) {
-
       /**
-     * THE ITERATOR RESULT PAYLOAD
-     *
-     * Calling `.next()` on an AsyncGenerator does not return the yielded `SortFrame` directly.
-     * It wraps the payload in an `IteratorResult` container to communicate lifecycle status.
-     *
-     * Expected Shape: { done: boolean, value: SortFrame | undefined } (done is js inbuilt flag)
-     *
-     * - State 1 (Yielding): { done: false, value: { array: [...], operation: 'compare' } } (here the value is of type SortFrame)
-     * - State 2 (Returned): { done: true, value: undefined }
-     *
-     * The `done` boolean is the engine's primary kill-switch. Without this wrapper,
-     * the engine would have no way of knowing when the algorithm's internal loops
-     * have finished executing.
-     */
+       * THE ITERATOR RESULT PAYLOAD
+       *
+       * Calling `.next()` on an AsyncGenerator does not return the yielded `SortFrame` directly.
+       * It wraps the payload in an `IteratorResult` container to communicate lifecycle status.
+       *
+       * Expected Shape: { done: boolean, value: SortFrame | undefined } (done is js inbuilt flag)
+       *
+       * - State 1 (Yielding): { done: false, value: { array: [...], operation: 'compare' } }
+       * (Here the value is of type SortFrame)
+       * - State 2 (Returned): { done: true, value: undefined }
+       *
+       * The `done` boolean is the engine's primary kill-switch. Without this wrapper,
+       * the engine would have no way of knowing when the algorithm's internal loops
+       * have finished executing.
+       */
       const result = await generatorRef.current.next();
 
       if (result.done) {
@@ -135,19 +156,39 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
         break;
       }
 
-      const frame = result.value; //now since we know due to above check that it is not done yet we can extract that single frame via result.value
+      // Extract the single frame since we know it is not done yet
+      const frame = result.value;
+      frameCounterRef.current++;
 
-      setState((prev) => ({
-        ...prev,
-        array: frame.array,
-        currentOperation: frame.operation,
-        metrics: updateMetrics(prev.metrics, frame.operation),
-      }));
+      // Silently update the true mathematical metrics in the background memory
+      metricsRef.current = updateMetrics(metricsRef.current, frame.operation);
 
-      // Throttle execution based on user speed settings
-      await sleep(speed);
+      //DYNAMIC SAMPLING: Calculate how many frames to skip based on array size
+      //If n = 1000, skip ~40 frames. If n = 10 skip 0 frames.
+      const SAMPLE_RATE = Math.max(1, Math.floor(config.array.length / 25));
+
+      const shouldRender =
+        frame.operation === 'swap' || //Always show swaps
+        frame.operation === 'overwrite' || //Always show overwrites
+        frame.operation === 'done' || //Always show the final frame
+        frameCounterRef.current % SAMPLE_RATE === 0; //Otherwise, only show every nth frame
+
+      if (shouldRender) {
+        //Sync the background metrics to React and update the UI
+        setState((prev) => ({
+          ...prev,
+          array: frame.array,
+          activeIndices: frame.activeIndices,
+          currentOperation: frame.operation,
+          metrics: metricsRef.current,
+        }));
+
+        // ONLY sleep if we actually painted the screen.
+        // Un-rendered frames are processed instantly.
+        await sleep(speed);
+      }
     }
-  }, [speed]);
+  }, [speed, config.array.length]); // Rebuild loop if array length changes to recalculate SAMPLE_RATE or the speed changes
 
   // PUBLIC CONTROL METHODS
   /**Start / resume execution*/
@@ -174,7 +215,6 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
   const step = useCallback(async () => {
     if (!generatorRef.current) return;
 
-    
     const result = await generatorRef.current.next();
 
     if (result.done) {
@@ -187,24 +227,33 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
     }
 
     const frame = result.value;
+    // Update background metrics for the single step
+    metricsRef.current = updateMetrics(metricsRef.current, frame.operation);
 
     setState((prev) => ({
       ...prev,
       array: frame.array,
+      activeIndices: frame.activeIndices,
       currentOperation: frame.operation,
-      metrics: updateMetrics(prev.metrics, frame.operation),
+      metrics: metricsRef.current, // Pass the synchronized ref directly
     }));
-  },[]);
+  }, []);
 
   /**Reset engine with new array*/
   const reset = useCallback(
     (array: number[]) => {
       isRunningRef.current = false;
+      frameCounterRef.current = 0;
+      metricsRef.current = {
+        comparisons: 0,
+        swaps: 0,
+        overwrites: 0,
+      };
 
       initGenerator(array);
-
       setState({
         array,
+        activeIndices: [],
         status: 'idle',
         metrics: {
           comparisons: 0,

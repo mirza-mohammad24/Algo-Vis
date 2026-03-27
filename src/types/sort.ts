@@ -199,6 +199,11 @@ export interface SortState {
   array: readonly number[];
 
   /**
+   * Tracks which bar to highlight
+   */
+  activeIndices: readonly number[];
+
+  /**
    * Current execution status.
    */
   status: SortStatus;
