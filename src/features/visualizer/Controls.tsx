@@ -8,10 +8,13 @@
 
 
 import { useState, useEffect } from "react";
-
+import type { SortAlgorithm } from "../../types/sort.ts";
 interface ControlProps {
   status: 'idle' | 'running' | 'paused' | 'completed';
   arraySize: number;
+  algorithms: SortAlgorithm[];
+  selectedAlgorithm: SortAlgorithm;
+  onAlgorithmChange: (algo: SortAlgorithm) => void;
   onPlay: () => void;
   onPause: () => void;
   onStep: () => void;
@@ -23,6 +26,9 @@ interface ControlProps {
 export function Controls({
   status,
   arraySize,
+  algorithms,
+  selectedAlgorithm,
+  onAlgorithmChange,
   onPlay,
   onPause,
   onStep,
@@ -72,11 +78,6 @@ export function Controls({
       commitFn();
     }
   }
-  /** 
-  const handleSpeedChange = (val: number) => {
-    setLocalSpeed(val);
-    onSpeedChange(val);
-  };*/
 
   return (
     <div className="flex flex-col gap-6 p-4 bg-white rounded-lg shadow-sm border-slate-200">
@@ -113,6 +114,27 @@ export function Controls({
 
       {/* Bottom Row: Sliders & Number Inputs */}
       <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700">
+
+        {/*Algorithm Selector*/}
+        <div className="flex items-center gap-3">
+          <label htmlFor="algo-select" className="w-20">Algorithm</label>
+          <select
+            id="algo-select"
+            value={selectedAlgorithm.name}
+            disabled={isRunning}
+            onChange={(e) => {
+              const selected = algorithms.find(a => a.name == e.target.value);
+              if (selected) onAlgorithmChange(selected);
+            }}
+            className="w-40 px-2 py-1.5 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {algorithms.map((algo) => (
+              <option key={algo.name} value={algo.name}>
+                {algo.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* Size Control Group */}
         <div className="flex items-center gap-3">

@@ -8,6 +8,11 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
+import { CanvasVisualizer } from './CanvasVisualizer.tsx';
+import { Controls } from './Controls.tsx';
+import type { SortAlgorithm } from '../../types/sort.ts';
+
+//Import all 8 algorithms
 import { bubbleSortAlgorithm } from '../../algorithms/bubbleSort.ts';
 import { selectionSortAlgorithm } from '../../algorithms/selectionSort.ts';
 import { insertionSortAlgorithm } from '../../algorithms/insertionSort.ts';
@@ -16,8 +21,16 @@ import { quickSortAlgorithm } from '../../algorithms/quickSort.ts';
 import { heapSortAlgorithm } from '../../algorithms/heapSort.ts';
 import { countingSortAlgorithm } from '../../algorithms/countingSort.ts';
 import { radixSortAlgorithm } from '../../algorithms/radixSort.ts';
-import { CanvasVisualizer } from './CanvasVisualizer.tsx';
-import { Controls } from './Controls.tsx';
+
+const ALGORITHMS: SortAlgorithm[] = [
+  bubbleSortAlgorithm,
+  selectionSortAlgorithm,
+  insertionSortAlgorithm,mergeSortAlgorithm,
+  quickSortAlgorithm,
+  heapSortAlgorithm,
+  countingSortAlgorithm,
+  radixSortAlgorithm
+]
 
 /**
  * Utility to generate a random array.
@@ -30,14 +43,16 @@ function generateArray(size: number): number[] {
 
 export function Visualizer() {
   //Dashboard State
-
   const [arraySize, setArraySize] = useState(150);
+
+  //Track the currently selected algorithm (Default to Bubble sort)
+  const [currentAlgorithm, setCurrentAlgorithm] = useState<SortAlgorithm>(ALGORITHMS[0]);
 
   //Generate initial array only when component mounts or size changes
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize the Engine
-  const { state, play, pause, step, reset, setSpeed } = useSortEngine(radixSortAlgorithm, {
+  const { state, play, pause, step, reset, setSpeed } = useSortEngine(currentAlgorithm, {
     array: initialArray,
     speed: 50,
   });
@@ -53,6 +68,11 @@ export function Visualizer() {
 
   const handleManualReset = useCallback(() => {
     // Generate a new random array of the current size
+    reset(generateArray(arraySize));
+  }, [arraySize, reset]);
+
+  const handleAlgorithmChange = useCallback((newAlgo: SortAlgorithm) => {
+    setCurrentAlgorithm(newAlgo);
     reset(generateArray(arraySize));
   }, [arraySize, reset]);
 
@@ -99,6 +119,9 @@ export function Visualizer() {
       <Controls
         status={state.status}
         arraySize={arraySize}
+        algorithms={ALGORITHMS}
+        selectedAlgorithm={currentAlgorithm}
+        onAlgorithmChange={handleAlgorithmChange}
         onPlay={play}
         onPause={pause}
         onStep={step}
