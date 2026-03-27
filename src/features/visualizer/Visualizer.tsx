@@ -12,6 +12,7 @@ import { bubbleSortAlgorithm } from '../../algorithms/bubbleSort.ts';
 import { selectionSortAlgorithm } from '../../algorithms/selectionSort.ts';
 import { insertionSortAlgorithm } from '../../algorithms/insertionSort.ts';
 import { mergeSortAlgorithm } from '../../algorithms/mergeSort.ts';
+import { quickSortAlgorithm } from '../../algorithms/quickSort.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
 import { Controls } from './Controls.tsx';
 
@@ -33,7 +34,7 @@ export function Visualizer() {
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize the Engine
-  const { state, play, pause, step, reset, setSpeed } = useSortEngine(mergeSortAlgorithm, {
+  const { state, play, pause, step, reset, setSpeed } = useSortEngine(quickSortAlgorithm, {
     array: initialArray,
     speed: 50,
   });
