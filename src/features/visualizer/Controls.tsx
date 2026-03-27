@@ -79,42 +79,43 @@ export function Controls({
 
   return (
     <div className="flex flex-col gap-6 p-4 bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
-      {/*Top Row: Playback buttons */}
-      <div className="flex flex-wrap gap-4 items-center">
+      {/* Top Row: Playback Buttons (Grid on mobile, flex on desktop) */}
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 items-center">
         <button
           onClick={onPlay}
           disabled={isRunning || isDone}
-          className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-6 py-2.5 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           Play
         </button>
         <button
           onClick={onPause}
           disabled={!isRunning}
-          className="px-6 py-2 bg-slate-600 dark:bg-slate-700 text-white font-medium rounded hover:bg-slate-700 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-6 py-2.5 bg-slate-600 dark:bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-700 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           Pause
         </button>
         <button
           onClick={onStep}
           disabled={isRunning || isDone}
-          className="px-6 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium rounded hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-6 py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-transparent dark:border-slate-700"
         >
           Step
         </button>
+        {/* Generates new array spans full width on mobile, aligns right on desktop */}
         <button
           onClick={onReset}
-          className="px-6 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-medium rounded hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors ml-auto"
+          className="col-span-2 sm:col-span-1 w-full sm:w-auto px-6 py-2.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors sm:ml-auto"
         >
           Generate New Array
         </button>
       </div>
 
-      {/* Bottom Row: Sliders & Number Inputs */}
-      <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700 dark:text-slate-300">
-        {/*Algorithm Selector*/}
-        <div className="flex items-center gap-3">
-          <label htmlFor="algo-select" className="w-20">
+      {/* Bottom Row: Controls (Stacked vertically on mobile, row on desktop) */}
+      <div className="flex flex-col lg:flex-row flex-wrap gap-6 items-start lg:items-center text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800/50">
+        {/* Algorithm Selector */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full lg:w-auto">
+          <label htmlFor="algo-select" className="w-24 shrink-0 text-slate-500 dark:text-slate-400">
             Algorithm
           </label>
           <select
@@ -122,10 +123,10 @@ export function Controls({
             value={selectedAlgorithm.name}
             disabled={isRunning}
             onChange={(e) => {
-              const selected = algorithms.find((a) => a.name == e.target.value);
+              const selected = algorithms.find((a) => a.name === e.target.value);
               if (selected) onAlgorithmChange(selected);
             }}
-            className="w-40 px-2 py-1.5 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full sm:w-48 px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 disabled:opacity-50 transition-colors shadow-sm"
           >
             {algorithms.map((algo) => (
               <option key={algo.name} value={algo.name}>
@@ -135,72 +136,80 @@ export function Controls({
           </select>
         </div>
 
-        {/* Size Control Group */}
-        <div className="flex items-center gap-3">
-          <label htmlFor="size-slider" className="w-12">
+        {/* Size Control */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full lg:w-auto">
+          <label htmlFor="size-slider" className="w-24 shrink-0 text-slate-500 dark:text-slate-400">
             Size
           </label>
-          <input
-            id="size-slider"
-            type="range"
-            min="10"
-            max="1000"
-            value={localSize}
-            disabled={isRunning} // Locked while running to prevent stale closure confusion
-            onChange={(e) => {
-              setLocalSize(e.target.value);
-              onSizeChange(Number(e.target.value));
-            }}
-            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed accent-blue-600 dark:accent-blue-500"
-          />
-          <input
-            type="number"
-            min="10"
-            max="1000"
-            value={localSize}
-            disabled={isRunning} // Locked while running
-            //Update the local text state only
-            onChange={(e) => setLocalSize(e.target.value)}
-            //Commit to the engine when user clicks enter
-            onBlur={commitSize}
-            onKeyDown={(e) => handleKeyDown(e, commitSize)}
-            className="w-20 px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          />
+          <div className="flex items-center gap-3 w-full">
+            <input
+              id="size-slider"
+              type="range"
+              min="10"
+              max="1000"
+              value={localSize}
+              disabled={isRunning}
+              onChange={(e) => {
+                setLocalSize(e.target.value);
+                onSizeChange(Number(e.target.value));
+              }}
+              className="flex-1 sm:w-32 cursor-pointer disabled:opacity-50 accent-blue-600 dark:accent-blue-500"
+            />
+            <input
+              type="number"
+              min="10"
+              max="1000"
+              value={localSize}
+              disabled={isRunning}
+              onChange={(e) => setLocalSize(e.target.value)}
+              onBlur={commitSize}
+              onKeyDown={(e) => handleKeyDown(e, commitSize)}
+              className="w-20 px-2 py-1.5 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 text-center shadow-sm"
+            />
+          </div>
         </div>
 
-        {/* Speed Control Group */}
-        <div className="flex items-center gap-3">
-          <label htmlFor="speed-slider" className="w-20">
+        {/* Speed Control */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full lg:w-auto">
+          <label
+            htmlFor="speed-slider"
+            className="w-24 shrink-0 text-slate-500 dark:text-slate-400"
+          >
             Delay (ms)
           </label>
-          <input
-            id="speed-slider"
-            type="range"
-            min="0"
-            max="200"
-            value={localSpeed}
-            disabled={isRunning} // Locked while running to prevent stale closure confusion
-            onChange={(e) => {
-              setLocalSpeed(e.target.value);
-              onSpeedChange(Number(e.target.value));
-            }}
-            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed accent-blue-600 dark:accent-blue-500"
-          />
-          <input
-            type="number"
-            min="0"
-            max="200"
-            value={localSpeed}
-            disabled={isRunning} // Locked while running
-            onChange={(e) => setLocalSpeed(e.target.value)}
-            onBlur={commitSpeed}
-            onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
-            className="w-20 px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          />
+          <div className="flex items-center gap-3 w-full">
+            <input
+              id="speed-slider"
+              type="range"
+              min="0"
+              max="200"
+              value={localSpeed}
+              disabled={isRunning}
+              onChange={(e) => {
+                setLocalSpeed(e.target.value);
+                onSpeedChange(Number(e.target.value));
+              }}
+              className="flex-1 sm:w-32 cursor-pointer disabled:opacity-50 accent-blue-600 dark:accent-blue-500"
+            />
+            <input
+              type="number"
+              min="0"
+              max="200"
+              value={localSpeed}
+              disabled={isRunning}
+              onChange={(e) => setLocalSpeed(e.target.value)}
+              onBlur={commitSpeed}
+              onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
+              className="w-20 px-2 py-1.5 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 text-center shadow-sm"
+            />
+          </div>
         </div>
 
-        <div className="ml-auto px-4 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400 uppercase tracking-wider text-xs font-bold transition-colors">
-          {status}
+        {/* Status Badge (Pushed to end on large screens, sits at bottom on mobile) */}
+        <div className="lg:ml-auto w-full lg:w-auto flex justify-end mt-2 lg:mt-0">
+          <div className="px-4 py-1.5 bg-slate-200 dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-300 uppercase tracking-widest text-xs font-bold transition-colors">
+            {status}
+          </div>
         </div>
       </div>
     </div>

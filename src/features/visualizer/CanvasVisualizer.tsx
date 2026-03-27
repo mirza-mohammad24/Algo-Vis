@@ -170,7 +170,7 @@ export function CanvasVisualizer({ array, activeIndices, operation }: CanvasVisu
   }, [array, activeIndices, operation, maxVal, colors]);
 
   return (
-    <div className="w-full h-96 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300">
+    <div className="w-full h-[40vh] min-h-75 md:h-125 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300 shadow-inner">
       {/* CSS controls the container size, JavaScript scales the internal drawing resolution */}
       <canvas
         ref={canvasRef}
