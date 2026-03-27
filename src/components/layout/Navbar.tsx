@@ -54,7 +54,7 @@ export function Navbar() {
             onClick={closeMenu}
             className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
           >
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <div className="w-8 h-8 rounded bg-linear-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
               <svg
                 className="w-5 h-5 text-white"
                 fill="none"
