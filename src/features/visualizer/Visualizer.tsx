@@ -15,6 +15,7 @@ import { mergeSortAlgorithm } from '../../algorithms/mergeSort.ts';
 import { quickSortAlgorithm } from '../../algorithms/quickSort.ts';
 import { heapSortAlgorithm } from '../../algorithms/heapSort.ts';
 import { countingSortAlgorithm } from '../../algorithms/countingSort.ts';
+import { radixSortAlgorithm } from '../../algorithms/radixSort.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
 import { Controls } from './Controls.tsx';
 
@@ -36,7 +37,7 @@ export function Visualizer() {
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize the Engine
-  const { state, play, pause, step, reset, setSpeed } = useSortEngine(countingSortAlgorithm, {
+  const { state, play, pause, step, reset, setSpeed } = useSortEngine(radixSortAlgorithm, {
     array: initialArray,
     speed: 50,
   });
