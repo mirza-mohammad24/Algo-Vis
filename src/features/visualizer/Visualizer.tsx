@@ -49,7 +49,7 @@ export function Visualizer() {
   //Track the currently selected algorithm (Default to Bubble sort)
   const [currentAlgorithm, setCurrentAlgorithm] = useState<SortAlgorithm>(ALGORITHMS[0]);
 
-  //Generate initial array only when component mounts or size changes
+  //Generate initial array only when component mounts or size changes or when new algorithm is selected
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize the Engine
@@ -86,7 +86,7 @@ export function Visualizer() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold text-slate-800">Sorting Visualizer</h1>
-          {/* <p className="text-slate-500">Currently executing: Bubble Sort</p> */}
+          <p className="text-slate-500">Currently executing: {`${currentAlgorithm.name}`}</p>
         </div>
 
         {/* Real-time Engine Metrics */}
