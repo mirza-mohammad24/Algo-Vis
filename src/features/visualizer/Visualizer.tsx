@@ -9,6 +9,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
 import { bubbleSortAlgorithm } from '../../algorithms/bubbleSort.ts';
+import { selectionSortAlgorithm } from '../../algorithms/selectionSort.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
 import { Controls } from './Controls.tsx';
 
@@ -30,7 +31,7 @@ export function Visualizer() {
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize the Engine
-  const { state, play, pause, step, reset, setSpeed } = useSortEngine(bubbleSortAlgorithm, {
+  const { state, play, pause, step, reset, setSpeed } = useSortEngine(selectionSortAlgorithm, {
     array: initialArray,
     speed: 50,
   });
@@ -55,7 +56,7 @@ export function Visualizer() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold text-slate-800">Sorting Visualizer</h1>
-          <p className="text-slate-500">Currently executing: Bubble Sort</p>
+          {/* <p className="text-slate-500">Currently executing: Bubble Sort</p> */}
         </div>
 
         {/* Real-time Engine Metrics */}
