@@ -78,40 +78,40 @@ export function Controls({
   };
 
   return (
-    <div className="flex flex-col gap-6 p-4 bg-white rounded-lg shadow-sm border-slate-200">
+    <div className="flex flex-col gap-6 p-4 bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
       {/*Top Row: Playback buttons */}
       <div className="flex flex-wrap gap-4 items-center">
         <button
           onClick={onPlay}
           disabled={isRunning || isDone}
-          className="px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Play
         </button>
         <button
           onClick={onPause}
           disabled={!isRunning}
-          className="px-6 py-2 bg-slate-600 text-white font-medium rounded hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2 bg-slate-600 dark:bg-slate-700 text-white font-medium rounded hover:bg-slate-700 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Pause
         </button>
         <button
           onClick={onStep}
           disabled={isRunning || isDone}
-          className="px-6 py-2 bg-slate-200 text-slate-800 font-medium rounded hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium rounded hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           Step
         </button>
         <button
           onClick={onReset}
-          className="px-6 py-2 bg-red-100 text-red-700 font-medium rounded hover:bg-red-200 transition-colors ml-auto"
+          className="px-6 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-medium rounded hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors ml-auto"
         >
           Generate New Array
         </button>
       </div>
 
       {/* Bottom Row: Sliders & Number Inputs */}
-      <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700">
+      <div className="flex flex-wrap gap-8 items-center text-sm font-medium text-slate-700 dark:text-slate-300">
         {/*Algorithm Selector*/}
         <div className="flex items-center gap-3">
           <label htmlFor="algo-select" className="w-20">
@@ -125,7 +125,7 @@ export function Controls({
               const selected = algorithms.find((a) => a.name == e.target.value);
               if (selected) onAlgorithmChange(selected);
             }}
-            className="w-40 px-2 py-1.5 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-40 px-2 py-1.5 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {algorithms.map((algo) => (
               <option key={algo.name} value={algo.name}>
@@ -151,7 +151,7 @@ export function Controls({
               setLocalSize(e.target.value);
               onSizeChange(Number(e.target.value));
             }}
-            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed accent-blue-600 dark:accent-blue-500"
           />
           <input
             type="number"
@@ -164,7 +164,7 @@ export function Controls({
             //Commit to the engine when user clicks enter
             onBlur={commitSize}
             onKeyDown={(e) => handleKeyDown(e, commitSize)}
-            className="w-20 px-2 py-1 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-20 px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           />
         </div>
 
@@ -184,7 +184,7 @@ export function Controls({
               setLocalSpeed(e.target.value);
               onSpeedChange(Number(e.target.value));
             }}
-            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-32 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed accent-blue-600 dark:accent-blue-500"
           />
           <input
             type="number"
@@ -195,11 +195,11 @@ export function Controls({
             onChange={(e) => setLocalSpeed(e.target.value)}
             onBlur={commitSpeed}
             onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
-            className="w-20 px-2 py-1 text-sm border border-slate-300 rounded bg-slate-50 text-slate-700 focus:outline-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-20 px-2 py-1 text-sm border border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-blue-500 dark:focus:outline-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           />
         </div>
 
-        <div className="ml-auto px-4 py-1 bg-slate-100 rounded-full text-slate-600 uppercase tracking-wider text-xs font-bold">
+        <div className="ml-auto px-4 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400 uppercase tracking-wider text-xs font-bold transition-colors">
           {status}
         </div>
       </div>

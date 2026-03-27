@@ -85,25 +85,29 @@ export function Visualizer() {
       {/* Header & Metrics */}
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800">Sorting Visualizer</h1>
-          <p className="text-slate-500">Currently executing: {`${currentAlgorithm.name}`}</p>
+          <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
+            Sorting Visualizer
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400">
+            Currently executing: {`${currentAlgorithm.name}`}
+          </p>
         </div>
 
         {/* Real-time Engine Metrics */}
         <div className="flex gap-6 text-sm">
           <div className="flex flex-col items-end">
-            <span className="text-slate-400 font-medium uppercase tracking-wider text-xs">
+            <span className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-xs">
               Comparisons
             </span>
-            <span className="text-2xl font-mono font-semibold text-slate-700">
+            <span className="text-2xl font-mono font-semibold text-slate-700 dark:text-slate-200">
               {state.metrics.comparisons}
             </span>
           </div>
           <div className="flex flex-col items-end">
-            <span className="text-slate-400 font-medium uppercase tracking-wider text-xs">
+            <span className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-xs">
               Swaps
             </span>
-            <span className="text-2xl font-mono font-semibold text-slate-700">
+            <span className="text-2xl font-mono font-semibold text-slate-700 dark:text-slate-200">
               {state.metrics.swaps}
             </span>
           </div>
@@ -111,7 +115,7 @@ export function Visualizer() {
       </div>
 
       {/* The Render Arena (Canvas) */}
-      <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="p-4 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
         <CanvasVisualizer
           array={state.array}
           activeIndices={state.activeIndices}

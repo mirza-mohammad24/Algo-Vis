@@ -1,1 +1,31 @@
 @import 'tailwindcss';
+
+/* for dark mode support */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* CIRCULAR REVEAL THEME TRANSITION */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* 1. The old theme stays perfectly still in the background */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+/* 2. The new theme (whether light or dark) always expands over it */
+::view-transition-new(root) {
+  z-index: 2;
+  clip-path: circle(0px at var(--click-x) var(--click-y));
+  /* Changed from 0.5s to 1s for a smooth, premium feel */
+  animation: theme-wipe 1s ease-in-out forwards; 
+}
+
+@keyframes theme-wipe {
+  100% {
+    /* 150% ensures the circle grows large enough to cover the screen corners */
+    clip-path: circle(150% at var(--click-x) var(--click-y));
+  }
+}
