@@ -10,6 +10,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
 import { Controls } from './Controls.tsx';
+import { AlgorithmInfo } from './AlgorithmInfo.tsx';
 import type { SortAlgorithm } from '../../types/sort.ts';
 
 //Import all 8 algorithms
@@ -137,6 +138,9 @@ export function Visualizer() {
         onSpeedChange={setSpeed}
         onSizeChange={handleSizeChange}
       />
+
+      {/*The Info Panel */}
+      <AlgorithmInfo algorithmName={currentAlgorithm.name} />
     </div>
   );
 }
