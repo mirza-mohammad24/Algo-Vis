@@ -20,11 +20,11 @@ export function Navbar() {
       ? { base: '#1e293b', pill: '#020617', hoverText: '#ffffff', pillText: '#94a3b8' } // slate
       : { base: '#cbd5e1', pill: '#ffffff', hoverText: '#ffffff', pillText: '#475569' };
 
-  // 1. Pass the actual SVG directly so it stays crisp and scales properly!
+  // Pass the actual SVG directly
   const NativeLogo = (
     <div className="flex items-center gap-2">
       {/* The Gradient Icon Box */}
-      <div className="w-6 h-6 rounded bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+      <div className="w-6 h-6 rounded bg-linear-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
         <svg
           className="w-3.5 h-3.5 text-white"
           fill="none"
@@ -58,10 +58,10 @@ export function Navbar() {
           hoveredPillTextColor={pillColors.hoverText}
           pillTextColor={pillColors.pillText}
         >
-          {/* 2. Inject the Theme Toggle natively into the PillNav's flexbox container */}
+          {/*Inject the Theme Toggle natively into the PillNav's flexbox container */}
           <button
             onClick={toggleTheme}
-            className="relative inline-flex items-center justify-center w-[42px] h-[42px] rounded-full bg-slate-200 dark:bg-slate-800 shadow-sm hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shrink-0"
+            className="relative inline-flex items-center justify-center w-10.5 h-10.5 rounded-full bg-slate-200 dark:bg-slate-800 shadow-sm hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shrink-0"
             aria-label="Toggle Dark Mode"
           >
             <svg
