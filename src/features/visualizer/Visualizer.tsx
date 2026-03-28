@@ -6,8 +6,9 @@
  * Acts as the centralized state manager for the dashboard.
  */
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
+import { useAudioEngine } from '../../hooks/useAudioEngine.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
 import { Controls } from './Controls.tsx';
 import { AlgorithmInfo } from './AlgorithmInfo.tsx';
@@ -22,6 +23,7 @@ import { quickSortAlgorithm } from '../../algorithms/quickSort.ts';
 import { heapSortAlgorithm } from '../../algorithms/heapSort.ts';
 import { countingSortAlgorithm } from '../../algorithms/countingSort.ts';
 import { radixSortAlgorithm } from '../../algorithms/radixSort.ts';
+
 
 const ALGORITHMS: SortAlgorithm[] = [
   bubbleSortAlgorithm,
@@ -53,11 +55,32 @@ export function Visualizer() {
   //Generate initial array only when component mounts or size changes or when new algorithm is selected
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
-  //Initialize the Engine
+  //Initialize Audio Engine
+  const [playNote, isSoundEnabled, toggleSound] = useAudioEngine();
+
+  //Initialize the Sort Engine
   const { state, play, pause, step, reset, setSpeed } = useSortEngine(currentAlgorithm, {
     array: initialArray,
     speed: 50,
   });
+
+  // Calculate the max value of the current array for frequency mapping.
+  const maxVal = useMemo(() => {
+    if (state.array.length === 0) return 0;
+    let m = -1;
+    for (let i = 0; i < state.array.length; ++i) {
+      m = Math.max(m, state.array[i]);
+    }
+    return m;
+  }, [state.array]);
+
+  // Fire audio synthesis on every frame update where there are active operations
+  useEffect(() => {
+    if (state.activeIndices.length > 0) {
+      //We pass the actual value of the first active index to map it to a frequency
+      playNote(state.array[state.activeIndices[0]], maxVal); 
+    }
+  }, [state.activeIndices, state.array, maxVal, playNote]);
 
   const handleSizeChange = useCallback(
     (newSize: number) => {
@@ -130,6 +153,7 @@ export function Visualizer() {
         arraySize={arraySize}
         algorithms={ALGORITHMS}
         selectedAlgorithm={currentAlgorithm}
+        isSoundEnabled={isSoundEnabled}
         onAlgorithmChange={handleAlgorithmChange}
         onPlay={play}
         onPause={pause}
@@ -137,6 +161,7 @@ export function Visualizer() {
         onReset={handleManualReset}
         onSpeedChange={setSpeed}
         onSizeChange={handleSizeChange}
+        onToggleSound={toggleSound}
       />
 
       {/*The Info Panel */}

@@ -21,6 +21,7 @@ interface ControlProps {
   arraySize: number;
   algorithms: SortAlgorithm[];
   selectedAlgorithm: SortAlgorithm;
+  isSoundEnabled: boolean;
   onAlgorithmChange: (algo: SortAlgorithm) => void;
   onPlay: () => void;
   onPause: () => void;
@@ -28,6 +29,7 @@ interface ControlProps {
   onReset: () => void;
   onSpeedChange: (value: number) => void;
   onSizeChange: (value: number) => void;
+  onToggleSound: () => void;
 }
 
 /** Shared className for the no-spinner number inputs */
@@ -46,6 +48,7 @@ export function Controls({
   arraySize,
   algorithms,
   selectedAlgorithm,
+  isSoundEnabled,
   onAlgorithmChange,
   onPlay,
   onPause,
@@ -53,6 +56,7 @@ export function Controls({
   onReset,
   onSpeedChange,
   onSizeChange,
+  onToggleSound
 }: ControlProps) {
   const isRunning = status === 'running';
   const isDone = status === 'completed';
@@ -204,6 +208,50 @@ export function Controls({
             onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
             className={numberInputClass}
           />
+        </div>
+
+        {/*Sound Toggle */}
+        <div className="flex items-center">
+          <button
+            onClick={onToggleSound}
+            className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md border transition-all duration-300 ${
+              isSoundEnabled
+                ? 'bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400 shadow-sm'
+                : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 opacity-70 hover:opacity-100'
+            }`}
+          >
+            {isSoundEnabled ? (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                  />
+                </svg>
+                Sound On
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+                  />
+                </svg>
+                Sound Off
+              </>
+            )}
+          </button>
         </div>
 
         {/* Status badge */}
