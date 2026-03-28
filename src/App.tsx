@@ -6,11 +6,13 @@
  */
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
-import { Navbar } from './components/layout/Navbar';
-import { Footer } from './components/layout/Footer'; // <-- Import the Footer
-import { Home } from './pages/Home';
-import { VisualizerPage } from './pages/VisualizerPage';
+import { ThemeProvider } from './context/ThemeContext.tsx';
+import { Navbar } from './components/layout/Navbar.tsx';
+import { Footer } from './components/layout/Footer.tsx';
+import { ErrorBoundary } from './components/layout/ErrorBoundary.tsx';
+import { Home } from './pages/Home.tsx';
+import { VisualizerPage } from './pages/VisualizerPage.tsx';
+import { RacePage } from './pages/RacePage.tsx';
 
 function AppLayout() {
   return (
@@ -21,6 +23,14 @@ function AppLayout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/visualizer" element={<VisualizerPage />} />
+          <Route
+            path="/race"
+            element={
+              <ErrorBoundary>
+                <RacePage />
+              </ErrorBoundary>
+            }
+          />
         </Routes>
       </main>
 

@@ -13,6 +13,7 @@ export function Navbar() {
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Visualizer', href: '/visualizer' },
+    { label: 'Race Mode', href: '/race' }
   ];
 
   const pillColors =

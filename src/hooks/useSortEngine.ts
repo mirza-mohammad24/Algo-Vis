@@ -103,7 +103,6 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
   const frameCounterRef = useRef(0);
 
   // CORE ENGINE LOGIC
-
   /**
    * Initializes a fresh generator object using the provided array.
    */

@@ -52,7 +52,8 @@ export function Visualizer() {
   //Track the currently selected algorithm (Default to Bubble sort)
   const [currentAlgorithm, setCurrentAlgorithm] = useState<SortAlgorithm>(ALGORITHMS[0]);
 
-  //Generate initial array only when component mounts or size changes or when new algorithm is selected
+  //Generate initial array only when component mounts or size changes or when new algorithm is selected or reset is done
+  //last three changes are implemented below in handleSizeChange and handleAlgorithmChange
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
   //Initialize Audio Engine

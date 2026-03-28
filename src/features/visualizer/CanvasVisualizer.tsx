@@ -42,12 +42,15 @@ interface CanvasVisualizerProps {
   activeIndices: readonly number[];
   /** The current semantic operation (used to determine highlight color). */
   operation: SortOperation | null;
+  /**Optional prop that the race mode algorithms will pass so that we can
+   * properly adjust the height of the canvas in smaller screen */
+  containerHeightOverride?: string;
 }
 
 /**
  * Renders the sorting visualization on an HTML5 Canvas.
  */
-export function CanvasVisualizer({ array, activeIndices, operation }: CanvasVisualizerProps) {
+export function CanvasVisualizer({ array, activeIndices, operation, containerHeightOverride }: CanvasVisualizerProps) {
   // Reference to the actual DOM node for the Canvas API
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -170,7 +173,8 @@ export function CanvasVisualizer({ array, activeIndices, operation }: CanvasVisu
   }, [array, activeIndices, operation, maxVal, colors]);
 
   return (
-    <div className="w-full h-[40vh] min-h-75 md:h-125 rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300 shadow-inner">
+    <div
+      className={`w-full rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300 shadow-inner ${containerHeightOverride || 'h-[40vh] min-h-75 md:h-125'}`}>
       {/* CSS controls the container size, JavaScript scales the internal drawing resolution */}
       <canvas
         ref={canvasRef}

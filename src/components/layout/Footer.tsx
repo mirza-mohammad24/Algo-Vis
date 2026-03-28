@@ -57,6 +57,12 @@ export function Footer() {
             >
               Visualizer Engine
             </Link>
+            <Link
+              to="/race"
+              className="text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Race Mode
+            </Link>
           </div>
 
           {/* Tech Stack */}
