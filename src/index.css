@@ -33,7 +33,7 @@ input[type='number'] {
   z-index: 2;
   clip-path: circle(0px at var(--click-x) var(--click-y));
   /* Changed from 0.5s to 1s for a smooth, premium feel */
-  animation: theme-wipe 1s ease-in-out forwards; 
+  animation: theme-wipe 1s ease-in-out forwards;
 }
 
 @keyframes theme-wipe {

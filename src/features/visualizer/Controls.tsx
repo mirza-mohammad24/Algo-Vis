@@ -56,7 +56,7 @@ export function Controls({
   onReset,
   onSpeedChange,
   onSizeChange,
-  onToggleSound
+  onToggleSound,
 }: ControlProps) {
   const isRunning = status === 'running';
   const isDone = status === 'completed';

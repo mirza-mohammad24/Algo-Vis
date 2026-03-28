@@ -50,7 +50,12 @@ interface CanvasVisualizerProps {
 /**
  * Renders the sorting visualization on an HTML5 Canvas.
  */
-export function CanvasVisualizer({ array, activeIndices, operation, containerHeightOverride }: CanvasVisualizerProps) {
+export function CanvasVisualizer({
+  array,
+  activeIndices,
+  operation,
+  containerHeightOverride,
+}: CanvasVisualizerProps) {
   // Reference to the actual DOM node for the Canvas API
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -83,7 +88,7 @@ export function CanvasVisualizer({ array, activeIndices, operation, containerHei
         };
   }, [theme]);
 
-  //Another color palette 
+  //Another color palette
   /*
   const colors = useMemo(() => {
     return theme === 'dark'
@@ -174,7 +179,8 @@ export function CanvasVisualizer({ array, activeIndices, operation, containerHei
 
   return (
     <div
-      className={`w-full rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300 shadow-inner ${containerHeightOverride || 'h-[40vh] min-h-75 md:h-125'}`}>
+      className={`w-full rounded-lg overflow-hidden bg-slate-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 transition-colors duration-300 shadow-inner ${containerHeightOverride || 'h-[40vh] min-h-75 md:h-125'}`}
+    >
       {/* CSS controls the container size, JavaScript scales the internal drawing resolution */}
       <canvas
         ref={canvasRef}

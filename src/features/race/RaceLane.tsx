@@ -8,11 +8,10 @@
  * Includes an internal high-resolution stopwatch to report completion times.
  */
 
-
-import { useEffect, forwardRef, useImperativeHandle, useRef } from "react";
-import { useSortEngine } from "../../hooks/useSortEngine.ts";
-import { CanvasVisualizer } from "../visualizer/CanvasVisualizer.tsx";
-import type { RaceAlgorithm } from "../../pages/RacePage.tsx";
+import { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useSortEngine } from '../../hooks/useSortEngine.ts';
+import { CanvasVisualizer } from '../visualizer/CanvasVisualizer.tsx';
+import type { RaceAlgorithm } from '../../pages/RacePage.tsx';
 
 // The API contract this component exposes to its parent via React refs
 export interface RaceLaneHandle {
@@ -30,7 +29,7 @@ interface RaceLaneProps {
 }
 
 export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
-  ({algorithm, initialArray, speed, onRemove, onFinish}, ref) => {
+  ({ algorithm, initialArray, speed, onRemove, onFinish }, ref) => {
     //High resolution time ref to track exact execution duration
     const startTimeRef = useRef<number | null>(null);
 
@@ -55,18 +54,18 @@ export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
         startTimeRef.current = null; //Reset the stopwatch
         reset(newArray);
       },
-      isCompleted: state.status === 'completed'
+      isCompleted: state.status === 'completed',
     }));
 
     //Monitor engine status to stop the clock when finished
     useEffect(() => {
-      if (state.status === 'completed' && startTimeRef.current !== null){
+      if (state.status === 'completed' && startTimeRef.current !== null) {
         const elapsed = performance.now() - startTimeRef.current;
         onFinish(algorithm.id || algorithm.name, elapsed);
         startTimeRef.current = null; //Clear ref to prevent duplicate triggers
       }
     }, [state.status, algorithm, onFinish]);
-    
+
     return (
       <div className="flex flex-col bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         {/* Competitor Header */}

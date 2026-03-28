@@ -5,14 +5,14 @@
  * Provides global state management for the application's light/dark theme.
  */
 
-import { createContext, useContext, useState, useEffect} from "react";
-import type { ReactNode } from "react";
-import { flushSync } from "react-dom";
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 
 type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
-  theme : Theme,
+  theme: Theme;
   toggleTheme: (e: React.MouseEvent) => void;
 }
 
@@ -24,8 +24,7 @@ to get that cinematic effect of theme change there is no extra architectural log
 here */
 
 //Context Provider
-export function ThemeProvider ({children}: {children: ReactNode}) {
-
+export function ThemeProvider({ children }: { children: ReactNode }) {
   //On mount, check if the local storage previously saved a preference or check the OS
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
@@ -42,24 +41,22 @@ export function ThemeProvider ({children}: {children: ReactNode}) {
     return 'light'; // Default
   });
 
-  
   //Whenever theme changes, we update the HTML document class and save to localStorage
   useEffect(() => {
     const root = window.document.documentElement;
-    if (theme === 'dark'){
+    if (theme === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme',theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = (e: React.MouseEvent) => {
-
     const nextTheme = theme === 'light' ? 'dark' : 'light';
 
     //Fallback for older browsers that don't support view transitions
-    if (!document.startViewTransition){
+    if (!document.startViewTransition) {
       setTheme(nextTheme);
       return;
     }
@@ -80,18 +77,14 @@ export function ThemeProvider ({children}: {children: ReactNode}) {
     });
   };
 
-  return (
-    <ThemeContext.Provider value={{theme, toggleTheme}}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 }
 
-//Custom hook for easy consumption 
+//Custom hook for easy consumption
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeContext);
-  if (context === undefined){
+  if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;

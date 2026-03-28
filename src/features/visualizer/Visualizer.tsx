@@ -24,7 +24,6 @@ import { heapSortAlgorithm } from '../../algorithms/heapSort.ts';
 import { countingSortAlgorithm } from '../../algorithms/countingSort.ts';
 import { radixSortAlgorithm } from '../../algorithms/radixSort.ts';
 
-
 const ALGORITHMS: SortAlgorithm[] = [
   bubbleSortAlgorithm,
   selectionSortAlgorithm,
@@ -79,7 +78,7 @@ export function Visualizer() {
   useEffect(() => {
     if (state.activeIndices.length > 0) {
       //We pass the actual value of the first active index to map it to a frequency
-      playNote(state.array[state.activeIndices[0]], maxVal); 
+      playNote(state.array[state.activeIndices[0]], maxVal);
     }
   }, [state.activeIndices, state.array, maxVal, playNote]);
 
