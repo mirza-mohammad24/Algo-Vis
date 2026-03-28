@@ -10,9 +10,9 @@ import { useState } from 'react';
 import ElasticSlider from '../components/ReactBits/ElasticSlider';
 import { ComplexityChart } from '../features/complexity/ComplexityChart';
 
-export  function ComplexityPage() {
+export function ComplexityPage() {
   // Slider state for Maximum N. Default to 1,000 for a good initial view.
-  const [maxElements, setMaxElements] = useState(1000);
+  const [maxElements, setMaxElements] = useState(10);
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">
@@ -49,20 +49,22 @@ export  function ComplexityPage() {
               {maxElements >= 1000 ? `${(maxElements / 1000).toFixed(0)}k` : maxElements}
             </span>
           </label>
-          <ElasticSlider
-            startingValue={10}
-            maxValue={1000000} // Allows scaling up to 1 Million items
-            defaultValue={maxElements}
-            isStepped={true}
-            stepSize={1000} // Jumps by 1,000 for smooth scrubbing at scale
-            className="w-full max-w-none"
-            onChange={(value) => setMaxElements(Math.max(10, value))} // Prevent dropping to 0
-          />
+          <div className="px-3 pb-2">
+            <ElasticSlider
+              startingValue={10}
+              maxValue={1000000} // Allows scaling up to 1 Million items
+              defaultValue={maxElements}
+              isStepped={true}
+              stepSize={1000} // Jumps by 1,000 for smooth scrubbing at scale
+              className="w-full max-w-none"
+              onChange={(value) => setMaxElements(Math.max(10, value))} // Prevent dropping to 0
+            />
+          </div>
         </div>
       </div>
 
       {/* Chart Container */}
-      <div className="w-full h-96 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div className="w-full h-[600px] bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
         <ComplexityChart maxElements={maxElements} />
       </div>
     </div>
