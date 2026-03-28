@@ -210,7 +210,7 @@ export function RacePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-8">
+    <div className="max-w-7xl mx-auto p-6 space-y-8 min-h-[90vh]">
       {/* Configuration Panel */}
       <div className="flex flex-col gap-6 p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

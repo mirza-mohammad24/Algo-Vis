@@ -71,7 +71,9 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          scrub: true,
+          // CHANGED: Numeric scrub acts as a smoothing delay (1 second to catch up)
+          // This absorbs the harsh jumps of a mouse scroll wheel!
+          scrub: 1,
         },
       }
     );
