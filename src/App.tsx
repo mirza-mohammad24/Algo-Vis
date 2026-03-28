@@ -14,6 +14,7 @@ import { Home } from './pages/Home.tsx';
 import { VisualizerPage } from './pages/VisualizerPage.tsx';
 import { RacePage } from './pages/RacePage.tsx';
 import { StudyPage } from './pages/StudyPage.tsx';
+import { ComplexityPage } from './pages/ComplexityPage.tsx';
 
 function AppLayout() {
   return (
@@ -37,6 +38,14 @@ function AppLayout() {
             element={
               <ErrorBoundary>
                 <StudyPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/complexity"
+            element={
+              <ErrorBoundary>
+                <ComplexityPage />
               </ErrorBoundary>
             }
           />

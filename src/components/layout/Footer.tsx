@@ -69,6 +69,12 @@ export function Footer() {
             >
               Code Studio
             </Link>
+            <Link
+              to="/complexity"
+              className="text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              Big O Dashboard
+            </Link>
           </div>
 
           {/* Tech Stack */}
