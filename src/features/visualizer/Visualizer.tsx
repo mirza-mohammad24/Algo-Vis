@@ -7,6 +7,7 @@
  */
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
 import { useAudioEngine } from '../../hooks/useAudioEngine.ts';
 import { CanvasVisualizer } from './CanvasVisualizer.tsx';
@@ -166,6 +167,50 @@ export function Visualizer() {
 
       {/*The Info Panel */}
       <AlgorithmInfo algorithmName={currentAlgorithm.name} />
+
+      {/* Code Studio CTA — links users to the educational split-view page */}
+      <Link
+        to="/study"
+        className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 bg-white dark:bg-slate-900 hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-all duration-200"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
+            <svg
+              className="w-5 h-5 text-blue-600 dark:text-blue-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+              />
+            </svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
+              Want to watch the code execute line by line?
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Code Studio shows live highlighting across Python, Java, C++, JS, C and C# at a fixed,
+              readable pace.
+            </p>
+          </div>
+        </div>
+        <span className="flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 shrink-0 group-hover:gap-3 transition-all">
+          Open Code Studio
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </span>
+      </Link>
     </div>
   );
 }

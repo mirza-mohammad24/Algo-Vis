@@ -14,6 +14,7 @@ export function Navbar() {
     { label: 'Home', href: '/' },
     { label: 'Visualizer', href: '/visualizer' },
     { label: 'Race Mode', href: '/race' },
+    { label: 'Code Studio', href: '/study' },
   ];
 
   const pillColors =

@@ -13,6 +13,7 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary.tsx';
 import { Home } from './pages/Home.tsx';
 import { VisualizerPage } from './pages/VisualizerPage.tsx';
 import { RacePage } from './pages/RacePage.tsx';
+import { StudyPage } from './pages/StudyPage.tsx';
 
 function AppLayout() {
   return (
@@ -28,6 +29,14 @@ function AppLayout() {
             element={
               <ErrorBoundary>
                 <RacePage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/study"
+            element={
+              <ErrorBoundary>
+                <StudyPage />
               </ErrorBoundary>
             }
           />
