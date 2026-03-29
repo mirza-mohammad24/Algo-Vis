@@ -134,7 +134,7 @@ export function Controls({
       {/* Row 2: Sliders + algorithm selector */}
       <div className="flex flex-col lg:flex-row flex-wrap gap-6 lg:gap-4 items-stretch lg:items-center p-4 rounded-lg bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800/50">
         {/* Algorithm selector */}
-        <div className="flex items-center justify-between lg:justify-start gap-3">
+        <div className="flex items-center justify-between lg:justify-start gap-3 w-full lg:w-auto">
           <label htmlFor="algo-select" className={labelClass}>
             Algorithm
           </label>
@@ -159,7 +159,8 @@ export function Controls({
         <div className="hidden lg:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
         {/* Array size */}
-        <div className="flex items-center gap-3">
+        {/* Added w-full lg:flex-1 here so it stretches on desktop */}
+        <div className="flex items-center gap-3 w-full lg:w-auto lg:flex-1">
           <label className={labelClass}>Array size</label>
           <div className="flex-1 flex items-center gap-3">
             <ElasticSlider
@@ -189,7 +190,8 @@ export function Controls({
         <div className="hidden lg:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
         {/* Delay */}
-        <div className="flex items-center gap-3">
+        {/* Added w-full lg:flex-1 here so it stretches on desktop */}
+        <div className="flex items-center gap-3 w-full lg:w-auto lg:flex-1">
           <label className={labelClass}>Delay (ms)</label>
           <div className="flex-1 flex items-center gap-3">
             <ElasticSlider
@@ -217,7 +219,8 @@ export function Controls({
         </div>
 
         {/*Sound Toggle & Status Badge Container */}
-        <div className="flex items-center justify-between lg:justify-end gap-4 lg:ml-auto">
+        {/* Added w-full lg:w-auto to keep mobile stacked properly but inline on desktop */}
+        <div className="flex items-center justify-between lg:justify-end gap-4 w-full lg:w-auto lg:ml-auto mt-2 lg:mt-0">
           {/*Sound Toggle */}
           <button
             onClick={onToggleSound}
