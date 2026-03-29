@@ -159,7 +159,7 @@ export function Footer() {
 
           <div className="flex gap-6">
             <a
-              href="https://github.com"
+              href="https://github.com/mirza-mohammad24/Algo-Vis#"
               target="_blank"
               rel="noreferrer"
               className="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-2 group"
