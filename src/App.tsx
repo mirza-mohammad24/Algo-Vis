@@ -15,7 +15,11 @@ import { VisualizerPage } from './pages/VisualizerPage.tsx';
 import { RacePage } from './pages/RacePage.tsx';
 import { StudyPage } from './pages/StudyPage.tsx';
 import { ComplexityPage } from './pages/ComplexityPage.tsx';
+import { NotFound } from './pages/NotFound.tsx';
 import { ScrollToTop } from './utils/ScrollToTop.tsx';
+
+
+
 
 function AppLayout() {
   return (
@@ -62,6 +66,8 @@ function AppLayout() {
               </ErrorBoundary>
             }
           />
+          {/* Catch-all route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
