@@ -231,7 +231,7 @@ const PillNav: React.FC<PillNavProps> = ({
             ref={(el) => {
               logoRef.current = el;
             }}
-            className="rounded-full px-4 inline-flex items-center justify-center overflow-hidden shrink-0"
+            className="rounded-full px-3 sm:px-4 inline-flex items-center justify-center overflow-hidden shrink-0"
             style={{ height: 'var(--nav-h)', background: 'var(--base, #000)' }}
           >
             <span className="h-full flex items-center justify-center">{logo}</span>
@@ -244,17 +244,17 @@ const PillNav: React.FC<PillNavProps> = ({
             ref={(el) => {
               logoRef.current = el;
             }}
-            className="rounded-full px-4 inline-flex items-center justify-center overflow-hidden shrink-0"
+            className="rounded-full px-3 sm:px-4 inline-flex items-center justify-center overflow-hidden shrink-0"
             style={{ height: 'var(--nav-h)', background: 'var(--base, #000)' }}
           >
             <span className="h-full flex items-center justify-center">{logo}</span>
           </a>
         )}
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
           <div
             ref={navItemsRef}
-            className="relative items-center rounded-full hidden md:flex"
+            className="relative items-center rounded-full hidden lg:flex"
             style={{ height: 'var(--nav-h)', background: 'var(--base, #000)' }}
           >
             <ul
@@ -352,7 +352,7 @@ const PillNav: React.FC<PillNavProps> = ({
             onClick={toggleMobileMenu}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
-            className="md:hidden rounded-full border-0 flex flex-col items-center justify-center gap-1 cursor-pointer p-0 relative shrink-0"
+            className="lg:hidden rounded-full border-0 flex flex-col items-center justify-center gap-1 cursor-pointer p-0 relative shrink-0"
             style={{
               width: 'var(--nav-h)',
               height: 'var(--nav-h)',
@@ -373,7 +373,7 @@ const PillNav: React.FC<PillNavProps> = ({
 
       <div
         ref={mobileMenuRef}
-        className="md:hidden absolute top-[calc(100%+0.5rem)] left-0 right-0 w-full rounded-[27px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-[998] origin-top"
+        className="lg:hidden absolute top-[calc(100%+0.5rem)] left-0 right-0 w-full rounded-[27px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-[998] origin-top"
         style={{ ...cssVars, background: 'var(--base, #f0f0f0)' }}
       >
         <ul className="list-none m-0 p-[3px] flex flex-col gap-[3px]">

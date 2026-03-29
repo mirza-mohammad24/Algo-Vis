@@ -20,17 +20,18 @@ import { ScrollToTop } from './utils/ScrollToTop.tsx';
 function AppLayout() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300 flex flex-col">
-      <ScrollToTop/>
+      <ScrollToTop />
       <Navbar />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 flex flex-col">
         <Routes>
-          <Route path="/" 
-          element={
-            <ErrorBoundary>
-              <Home />
-            </ErrorBoundary>
-          } 
+          <Route
+            path="/"
+            element={
+              <ErrorBoundary>
+                <Home />
+              </ErrorBoundary>
+            }
           />
 
           <Route path="/visualizer" element={<VisualizerPage />} />
@@ -61,7 +62,6 @@ function AppLayout() {
               </ErrorBoundary>
             }
           />
-
         </Routes>
       </main>
 

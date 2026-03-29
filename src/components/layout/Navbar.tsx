@@ -25,9 +25,9 @@ export function Navbar() {
 
   // Pass the actual SVG directly
   const NativeLogo = (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 sm:gap-3">
       <svg
-        className="w-8 h-8 rounded-lg shadow-sm"
+        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm"
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,10 @@ export function Navbar() {
         <rect x="3" y="28" width="26" height="1.5" rx="0.75" fill="#334155" />
       </svg>
       {/* The Brand Name (Dynamically colored to match the GSAP theme) */}
-      <span className="font-bold text-[18px] tracking-tight" style={{ color: pillColors.pillText }}>
+      <span
+        className="font-bold text-[16px] sm:text-[18px] tracking-tight"
+        style={{ color: pillColors.pillText }}
+      >
         AlgoVis
       </span>
     </div>

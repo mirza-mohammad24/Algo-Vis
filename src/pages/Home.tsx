@@ -11,15 +11,15 @@ export function Home() {
   return (
     <div className="w-full">
       {/* HERO SECTION*/}
-      <section className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 overflow-hidden -mt-16 pt-16">
+      <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center px-4 overflow-hidden -mt-16 pt-24 pb-12">
         {/* Subtle CSS Background Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-blue-500/10 dark:bg-blue-600/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 md:w-150 md:h-150 bg-blue-500/10 dark:bg-blue-600/10 blur-[60px] md:blur-[100px] rounded-full pointer-events-none -z-10" />
 
-        <div className="mb-6 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide border border-blue-200 dark:border-blue-800/50 shadow-sm backdrop-blur-sm z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="mb-6 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs sm:text-sm font-semibold tracking-wide border border-blue-200 dark:border-blue-800/50 shadow-sm backdrop-blur-sm z-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           v1.0.0 GPU-Accelerated
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 z-10">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 z-10">
           <DecryptedText
             text="Sorting Visualized."
             animateOn="inViewHover"
@@ -30,15 +30,15 @@ export function Home() {
           />
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 leading-relaxed z-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-backwards">
+        <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 leading-relaxed z-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-backwards">
           A high-performance engine rendering 8 distinct algorithms at 60 frames per second. Watch
           arrays organize themselves in real-time.
         </p>
 
-        <div className="z-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-backwards flex gap-4">
+        <div className="z-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-backwards flex flex-col sm:flex-row gap-4">
           <Link
             to="/visualizer"
-            className="group relative inline-flex items-center justify-center px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold text-lg transition-all shadow-xl hover:scale-105 hover:shadow-2xl overflow-hidden"
+            className="group relative inline-flex items-center justify-center px-8 py-3.5 sm:py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold text-base sm:text-lg transition-all shadow-xl hover:scale-105 hover:shadow-2xl overflow-hidden"
           >
             <span className="relative z-10 flex items-center gap-2">
               Launch Engine
@@ -76,7 +76,7 @@ export function Home() {
       {/*FEATURES SECTION*/}
       <section
         id="features"
-        className="w-full max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 relative z-10"
+        className="w-full max-w-7xl mx-auto py-16 md:py-24 px-4 sm:px-6 lg:px-8 relative z-10"
       >
         <div className="text-center mb-16">
           <ScrollFloat

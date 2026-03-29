@@ -163,7 +163,7 @@ export function CodePanel({ algorithmId, activeOperation }: CodePanelProps) {
   return (
     <div className="relative flex flex-col w-full h-full bg-[#0d1117] rounded-xl border border-slate-700/50 shadow-xl overflow-hidden font-mono text-sm">
       {/* ── HEADER ────────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between bg-[#161b22] border-b border-slate-700/50 shrink-0">
+      <div className="flex items-center justify-between bg-[#161b22] border-b border-slate-700/50 shrink-0 min-w-0">
         {/* Mac window dots */}
         <div className="hidden sm:flex items-center gap-1.5 px-4 py-3 shrink-0">
           <div className="w-3 h-3 rounded-full bg-red-500/80" />
@@ -172,7 +172,7 @@ export function CodePanel({ algorithmId, activeOperation }: CodePanelProps) {
         </div>
 
         {/* Language tabs */}
-        <div className="flex overflow-x-auto">
+        <div className="flex overflow-x-auto min-w-0 flex-1">
           {LANGUAGES.map((lang) => {
             const isActive = activeLanguage === lang.id;
             return (
@@ -180,13 +180,13 @@ export function CodePanel({ algorithmId, activeOperation }: CodePanelProps) {
                 key={lang.id}
                 onClick={() => setActiveLanguage(lang.id)}
                 style={isActive ? { borderColor: lang.accent, color: lang.accent } : undefined}
-                className={`flex items-center gap-2 px-4 py-2.5 text-xs font-semibold whitespace-nowrap border-b-2 transition-colors ${
+                className={`flex items-center gap-2 px-4 py-2.5 text-[10px] sm:text-xs font-semibold whitespace-nowrap border-b-2 transition-colors ${
                   isActive
                     ? 'bg-white/5'
                     : 'text-slate-500 border-transparent hover:text-slate-300 hover:bg-white/[0.03]'
                 }`}
               >
-                <span className={`w-2 h-2 rounded-full shrink-0 ${lang.badge}`} />
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${lang.badge}`} />
                 {lang.label}
               </button>
             );
@@ -196,7 +196,7 @@ export function CodePanel({ algorithmId, activeOperation }: CodePanelProps) {
         {/* Live operation indicator */}
         {activeOperation && activeOperation !== 'done' && (
           <div
-            className="hidden md:flex items-center gap-1.5 px-3 mr-3 py-1 rounded text-[10px] font-black uppercase tracking-widest shrink-0"
+            className="hidden lg:flex items-center gap-1.5 px-3 mr-3 py-1 rounded text-[10px] font-black uppercase tracking-widest shrink-0"
             style={{
               color: getOperationHex(activeOperation),
               background: `${getOperationHex(activeOperation)}18`,
@@ -214,7 +214,7 @@ export function CodePanel({ algorithmId, activeOperation }: CodePanelProps) {
       {/* ── CODE VIEWPORT ─────────────────────────────────────────────────── */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto py-3 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
+        className="flex-1 overflow-auto py-3 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
       >
         {codeLines.map((rawLine, index) => {
           const lineNumber = index + 1;

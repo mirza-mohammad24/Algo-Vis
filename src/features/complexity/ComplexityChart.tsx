@@ -73,41 +73,47 @@ function generateComplexityData(maxN: number) {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700 p-5 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] font-mono text-sm z-50 min-w-[280px]">
-        <div className="mb-3 pb-3 border-b border-slate-700/80">
-          <p className="text-slate-400 text-xs uppercase tracking-widest font-bold mb-1">
+      <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700 p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] font-mono text-[10px] sm:text-sm z-50 min-w-[200px] sm:min-w-[280px]">
+        <div className="mb-2 sm:mb-3 pb-2 sm:pb-3 border-b border-slate-700/80">
+          <p className="text-slate-400 text-[8px] sm:text-xs uppercase tracking-widest font-bold mb-0.5 sm:mb-1">
             Dataset Size
           </p>
-          <p className="text-white text-lg font-black tracking-tight">
+          <p className="text-white text-sm sm:text-lg font-black tracking-tight">
             N = {label.toLocaleString()}
           </p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {payload.map((entry: any, index: number) => (
             <div
               key={index}
-              className="flex flex-col gap-1 p-2 rounded-lg bg-slate-800/30 border border-slate-700/30"
+              className="flex flex-col gap-0.5 sm:gap-1 p-1.5 sm:p-2 rounded-lg bg-slate-800/30 border border-slate-700/30"
             >
               <div className="flex justify-between items-center">
-                <span style={{ color: entry.color }} className="font-bold flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                  {entry.name}
+                <span
+                  style={{ color: entry.color }}
+                  className="font-bold flex items-center gap-1.5 sm:gap-2"
+                >
+                  <div
+                    className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
+                    style={{ backgroundColor: entry.color }}
+                  />
+                  {entry.name.split(' - ')[0]}
                 </span>
-                <span className="text-slate-300 font-medium text-xs">
+                <span className="text-slate-300 font-medium text-[9px] sm:text-xs">
                   {entry.value >= 1e12
-                    ? `${(entry.value / 1e12).toFixed(2)}T ops`
+                    ? `${(entry.value / 1e12).toFixed(1)}T`
                     : entry.value >= 1e9
-                      ? `${(entry.value / 1e9).toFixed(2)}B ops`
+                      ? `${(entry.value / 1e9).toFixed(1)}B`
                       : entry.value >= 1e6
-                        ? `${(entry.value / 1e6).toFixed(2)}M ops`
-                        : `${entry.value.toLocaleString()} ops`}
+                        ? `${(entry.value / 1e6).toFixed(1)}M`
+                        : `${entry.value.toLocaleString()}`}
                 </span>
               </div>
               {/* THE WOW FACTOR: Hardware Time Translation */}
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-slate-500 text-xs">Est. CPU Time:</span>
-                <span className="text-white font-black text-xs bg-slate-800 px-2 py-0.5 rounded shadow-inner">
+              <div className="flex justify-between items-center pl-3 sm:pl-4">
+                <span className="text-slate-500 text-[8px] sm:text-xs">Est. CPU:</span>
+                <span className="text-white font-black text-[8px] sm:text-xs bg-slate-800 px-1.5 sm:px-2 py-0.5 rounded shadow-inner">
                   {formatRealWorldTime(entry.value)}
                 </span>
               </div>
@@ -126,7 +132,7 @@ export function ComplexityChart({ maxElements }: ComplexityChartProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       {/* Upgraded from LineChart to AreaChart for the gradient fills */}
-      <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+      <AreaChart data={chartData} margin={{ top: 70, right: 10, left: -20, bottom: 0 }}>
         {/* SVG Defs for glowing gradients */}
         <defs>
           <linearGradient id="colorLinear" x1="0" y1="0" x2="0" y2="1">
@@ -147,50 +153,40 @@ export function ComplexityChart({ maxElements }: ComplexityChartProps) {
         <XAxis
           dataKey="n"
           stroke="#475569"
-          tick={{ fill: '#64748b', fontSize: 12, fontFamily: 'monospace' }}
-          tickMargin={15}
+          tick={{ fill: '#64748b', fontSize: 10, fontFamily: 'monospace' }}
+          tickMargin={10}
           tickFormatter={(value) => (value >= 1000 ? `${(value / 1000).toFixed(0)}k` : value)}
-          label={{
-            value: 'Array Size (N)',
-            position: 'bottom',
-            offset: 8,
-            fill: '#94a3b8',
-            fontSize: 13,
-            letterSpacing: '0.05em',
-            fontWeight: 'bold',
-          }}
         />
         <YAxis
           stroke="#475569"
-          tick={{ fill: '#64748b', fontSize: 12, fontFamily: 'monospace' }}
-          tickMargin={10}
+          tick={{ fill: '#64748b', fontSize: 9, fontFamily: 'monospace' }}
+          tickMargin={5}
           tickFormatter={(value) => {
-            if (value >= 1e12) return `${(value / 1e12).toFixed(1)}T`;
-            if (value >= 1e9) return `${(value / 1e9).toFixed(1)}B`;
-            if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
+            if (value >= 1e12) return `${(value / 1e12).toFixed(0)}T`;
+            if (value >= 1e9) return `${(value / 1e9).toFixed(0)}B`;
+            if (value >= 1e6) return `${(value / 1e6).toFixed(0)}M`;
             if (value >= 1e3) return `${(value / 1e3).toFixed(0)}k`;
             return value;
-          }}
-          label={{
-            value: 'Operations (Time)',
-            angle: -90,
-            position: 'insideLeft',
-            offset: -15,
-            fill: '#94a3b8',
-            fontSize: 13,
-            letterSpacing: '0.05em',
-            fontWeight: 'bold',
           }}
         />
         <Tooltip
           content={<CustomTooltip />}
           cursor={{ stroke: '#64748b', strokeWidth: 1, strokeDasharray: '4 4' }}
+          wrapperStyle={{ zIndex: 100 }}
         />
         <Legend
           verticalAlign="top"
-          height={60}
+          align="center"
+          height={40}
           iconType="circle"
-          wrapperStyle={{ paddingTop: '10px', paddingBottom: '20px', fontWeight: 'bold' }}
+          wrapperStyle={{
+            top: 0,
+            left: 0,
+            paddingBottom: '40px',
+            fontSize: '10px',
+            width: '100%',
+            fontWeight: 'bold',
+          }}
         />
 
         {/* Rendered Areas with Gradients */}

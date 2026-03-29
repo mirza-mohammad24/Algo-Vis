@@ -312,14 +312,14 @@ export function StudyPage() {
   const education = EDUCATION[selectedAlgoId];
 
   return (
-    <div className="max-w-[1400px] mx-auto p-4 md:p-6 space-y-6">
+    <div className="w-full max-w-[1400px] mx-auto p-2 sm:p-4 md:p-6 space-y-4 sm:space-y-6 overflow-x-hidden">
       {/* ── 1. HEADER ROW ──────────────────────────────────────────────────── */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+      <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 bg-white dark:bg-slate-900 p-3 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 min-w-0">
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shrink-0">
               <svg
-                className="w-6 h-6 text-blue-500"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -331,53 +331,59 @@ export function StudyPage() {
                   d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                 />
               </svg>
-              Code Studio
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-              Live execution · N={STUDY_ARRAY_SIZE} · {STUDY_SPEED_MS}ms delay
-            </p>
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight truncate">
+                Code Studio
+              </h1>
+              <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                Live execution · N={STUDY_ARRAY_SIZE}
+              </p>
+            </div>
           </div>
 
           <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block mx-1" />
 
-          <select
-            value={selectedAlgoId}
-            onChange={handleAlgorithmChange}
-            disabled={state.status === 'running'}
-            className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-4 py-2 font-semibold disabled:opacity-50 outline-none focus:border-blue-500 transition-colors"
-          >
-            {STUDY_ALGORITHMS.map((algo) => (
-              <option key={algo.id} value={algo.id}>
-                {algo.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto min-w-0">
+            <select
+              value={selectedAlgoId}
+              onChange={handleAlgorithmChange}
+              disabled={state.status === 'running'}
+              className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-base font-semibold disabled:opacity-50 outline-none focus:border-blue-500 transition-colors"
+            >
+              {STUDY_ALGORITHMS.map((algo) => (
+                <option key={algo.id} value={algo.id}>
+                  {algo.name}
+                </option>
+              ))}
+            </select>
 
-          {/* Status badge */}
-          <span
-            className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${
-              state.status === 'completed'
-                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400'
-                : state.status === 'running'
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400'
-                  : state.status === 'paused'
-                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400'
-                    : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
-            }`}
-          >
-            {state.status}
-          </span>
+            {/* Status badge */}
+            <span
+              className={`text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-2 sm:px-3 py-1 sm:py-1.5 rounded-full whitespace-nowrap ${
+                state.status === 'completed'
+                  ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400'
+                  : state.status === 'running'
+                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400'
+                    : state.status === 'paused'
+                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400'
+                      : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+              }`}
+            >
+              {state.status}
+            </span>
+          </div>
         </div>
 
         {/* Playback controls */}
-        <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-950 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 w-full lg:w-auto overflow-x-auto">
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-50 dark:bg-slate-950 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 w-full lg:w-auto">
           {state.status !== 'running' ? (
             <button
               onClick={play}
               disabled={state.status === 'completed'}
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-lg transition-colors"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs sm:text-base font-bold rounded-lg transition-colors"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
               Play
@@ -385,9 +391,9 @@ export function StudyPage() {
           ) : (
             <button
               onClick={pause}
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-colors"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs sm:text-base font-bold rounded-lg transition-colors"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
               </svg>
               Pause
@@ -396,13 +402,13 @@ export function StudyPage() {
           <button
             onClick={step}
             disabled={state.status === 'running' || state.status === 'completed'}
-            className="flex-1 lg:flex-none px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-white font-bold rounded-lg transition-colors"
+            className="flex-1 lg:flex-none px-3 sm:px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-white text-xs sm:text-base font-bold rounded-lg transition-colors"
           >
             Step
           </button>
           <button
             onClick={handleGenerateNew}
-            className="flex-1 lg:flex-none px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold rounded-lg transition-colors"
+            className="flex-1 lg:flex-none px-3 sm:px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-white text-xs sm:text-base font-bold rounded-lg transition-colors"
           >
             Reset
           </button>
@@ -410,9 +416,9 @@ export function StudyPage() {
       </div>
 
       {/* ── 2. SPLIT VIEWPORT ──────────────────────────────────────────────── */}
-      <div className="flex flex-col md:flex-row gap-6 min-h-[500px] md:h-[60vh] lg:h-[62vh]">
+      <div className="flex flex-col md:flex-row gap-4 sm:gap-6 min-h-[450px] md:h-[60vh] lg:h-[62vh]">
         {/* Canvas (2/5) */}
-        <div className="w-full md:w-2/5 h-[280px] md:h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 flex flex-col">
+        <div className="w-full md:w-2/5 h-[250px] sm:h-[300px] md:h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-2 sm:p-4 flex flex-col min-w-0">
           <div className="flex-1 relative">
             <CanvasVisualizer
               array={state.array}
@@ -424,7 +430,7 @@ export function StudyPage() {
         </div>
 
         {/* Code Panel (3/5) */}
-        <div className="w-full md:w-3/5 h-[420px] md:h-full">
+        <div className="w-full md:w-3/5 h-[350px] sm:h-[450px] md:h-full min-w-0">
           <CodePanel algorithmId={selectedAlgoId} activeOperation={state.currentOperation} />
         </div>
       </div>
@@ -432,27 +438,27 @@ export function StudyPage() {
       {/* ── 3. INFO STRIP ──────────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* Live metrics + complexity */}
-        <div className="flex-1 bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex gap-8 w-full sm:w-auto justify-between sm:justify-start">
+        <div className="flex-1 bg-white dark:bg-slate-900 p-3 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 min-w-0">
+          <div className="flex gap-6 sm:gap-8 w-full sm:w-auto justify-between sm:justify-start px-1 sm:px-0">
             <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Comparisons
               </div>
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-mono">
+              <div className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white font-mono">
                 {state.metrics.comparisons}
               </div>
             </div>
             <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Swaps / Writes
               </div>
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-mono">
+              <div className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white font-mono">
                 {state.metrics.swaps + state.metrics.overwrites}
               </div>
             </div>
           </div>
 
-          <div className="flex gap-2 w-full sm:w-auto justify-between sm:justify-start">
+          <div className="grid grid-cols-3 sm:flex sm:flex-row gap-2 w-full sm:w-auto">
             {[
               {
                 label: 'Best',
@@ -472,12 +478,16 @@ export function StudyPage() {
             ].map(({ label, value, colour }) => (
               <div
                 key={label}
-                className="px-3 py-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800 text-center"
+                className="px-1.5 sm:px-3 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800 text-center flex-1 min-w-0"
               >
-                <div className={`text-[9px] font-black uppercase tracking-wider mb-1 ${colour}`}>
+                <div
+                  className={`text-[8px] sm:text-[9px] font-black uppercase tracking-wider mb-1 ${colour}`}
+                >
                   {label}
                 </div>
-                <div className={`text-xs font-bold font-mono ${colour}`}>{value}</div>
+                <div className={`text-[10px] sm:text-xs font-bold font-mono truncate ${colour}`}>
+                  {value}
+                </div>
               </div>
             ))}
           </div>
@@ -486,15 +496,15 @@ export function StudyPage() {
         {/* Cross-link to full Visualizer */}
         <Link
           to="/visualizer"
-          className="md:w-64 bg-gradient-to-br from-blue-600 to-indigo-700 p-5 rounded-2xl text-white flex flex-col justify-center group hover:from-blue-500 hover:to-indigo-600 transition-all hover:-translate-y-0.5 shadow-sm"
+          className="w-full md:w-64 bg-gradient-to-br from-blue-600 to-indigo-700 p-4 sm:p-5 rounded-2xl text-white flex flex-col justify-center group hover:from-blue-500 hover:to-indigo-600 transition-all hover:-translate-y-0.5 shadow-sm shrink-0"
         >
-          <div className="text-[10px] font-black text-blue-200 uppercase tracking-widest mb-1">
+          <div className="text-[9px] sm:text-[10px] font-black text-blue-200 uppercase tracking-widest mb-1">
             Scale up
           </div>
-          <div className="text-base font-black leading-tight flex items-center justify-between gap-2">
-            Test with up to 1,000 elements
+          <div className="text-sm sm:text-base font-black leading-tight flex items-center justify-between gap-2">
+            Test with 1,000 items
             <svg
-              className="w-5 h-5 shrink-0 group-hover:translate-x-1 transition-transform"
+              className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 group-hover:translate-x-1 transition-transform"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -512,15 +522,15 @@ export function StudyPage() {
 
       {/* ── 4. EDUCATIONAL MODULE (ParticleCard bento) ─────────────────────── */}
       {education && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl font-black text-slate-900 dark:text-white">
+        <div className="space-y-3 sm:space-y-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <h2 className="text-sm sm:text-xl font-black text-slate-900 dark:text-white">
               {activeAlgorithm.name} — Deep Dive
             </h2>
             <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800" />
-            <div className="flex gap-2">
+            <div className="hidden xs:flex gap-1 sm:gap-2">
               <span
-                className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border ${
+                className={`text-[7px] sm:text-[10px] font-black uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full border ${
                   education.stability === 'Stable'
                     ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800'
                     : 'text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
@@ -529,7 +539,7 @@ export function StudyPage() {
                 {education.stability}
               </span>
               <span
-                className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border ${
+                className={`text-[7px] sm:text-[10px] font-black uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full border ${
                   education.inPlace
                     ? 'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
                     : 'text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'
@@ -566,29 +576,29 @@ export function StudyPage() {
             }
           `}</style>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Intuition */}
             <ParticleCard
               glowColor={PARTICLE_GLOW}
               enableTilt={false}
               enableMagnetism={false}
               clickEffect={true}
-              className="edu-card col-span-1 md:col-span-2 p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+              className="edu-card col-span-1 md:col-span-2 p-3.5 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm w-full min-w-0"
             >
-              <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-3 flex items-center gap-2">
-                <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-[8px]">
+              <div className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2 sm:mb-3 flex items-center gap-2">
+                <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-[7px] sm:text-[8px]">
                   💡
                 </span>
                 Intuition
               </div>
-              <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-medium">
+              <p className="text-slate-700 dark:text-slate-300 text-[10px] sm:text-sm leading-relaxed font-medium">
                 {education.intuition}
               </p>
-              <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="text-[10px] font-black uppercase tracking-widest text-violet-500 mb-2">
+              <div className="mt-2.5 sm:mt-4 pt-2.5 sm:pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-violet-500 mb-1.5 sm:mb-2">
                   Key insight
                 </div>
-                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 text-[10px] sm:text-sm leading-relaxed">
                   {education.keyInsight}
                 </p>
               </div>
@@ -600,18 +610,18 @@ export function StudyPage() {
               enableTilt={false}
               enableMagnetism={false}
               clickEffect={true}
-              className="edu-card p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+              className="edu-card p-3.5 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm w-full min-w-0"
             >
-              <div className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-3">
+              <div className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2 sm:mb-3">
                 How it works
               </div>
-              <ol className="space-y-2.5">
+              <ol className="space-y-1.5 sm:space-y-2.5">
                 {education.howItWorks.map((step, i) => (
                   <li
                     key={i}
-                    className="flex gap-3 text-sm text-slate-600 dark:text-slate-400 leading-snug"
+                    className="flex gap-2 sm:gap-3 text-[10px] sm:text-sm text-slate-600 dark:text-slate-400 leading-snug"
                   >
-                    <span className="shrink-0 w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-black mt-0.5">
+                    <span className="shrink-0 w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[8px] sm:text-[10px] font-black mt-0.5">
                       {i + 1}
                     </span>
                     {step}
@@ -626,19 +636,19 @@ export function StudyPage() {
               enableTilt={false}
               enableMagnetism={false}
               clickEffect={true}
-              className="edu-card p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+              className="edu-card p-3.5 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm w-full min-w-0"
             >
-              <div className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-3">
+              <div className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-2 sm:mb-3">
                 Use cases
               </div>
-              <ul className="space-y-2 mb-5">
+              <ul className="space-y-1 sm:space-y-2 mb-3 sm:mb-5">
                 {education.useCases.map((uc, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400"
+                    className="flex items-start gap-1.5 sm:gap-2 text-[10px] sm:text-sm text-slate-600 dark:text-slate-400"
                   >
                     <svg
-                      className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0"
+                      className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500 mt-0.5 shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -654,11 +664,11 @@ export function StudyPage() {
                   </li>
                 ))}
               </ul>
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">
+              <div className="pt-2.5 sm:pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5 sm:mb-2">
                   Space complexity
                 </div>
-                <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">
+                <span className="font-mono font-bold text-slate-900 dark:text-white text-[10px] sm:text-sm">
                   {education.spaceComplexity}
                 </span>
               </div>

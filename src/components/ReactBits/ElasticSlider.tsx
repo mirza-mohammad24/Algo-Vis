@@ -46,7 +46,7 @@ const ElasticSlider: React.FC<ElasticSliderProps> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-4 w-48 ${className} ${
+      className={`flex flex-col items-center justify-center gap-4 w-full ${className} ${
         disabled ? 'pointer-events-none opacity-50' : ''
       }`}
     >
@@ -177,7 +177,7 @@ const Slider: React.FC<SliderProps> = ({
         {/* Track */}
         <div
           ref={sliderRef}
-          className="relative flex w-full max-w-xs flex-grow cursor-grab active:cursor-grabbing touch-none select-none items-center py-4"
+          className="relative flex w-full flex-grow cursor-grab active:cursor-grabbing touch-none select-none items-center py-4"
           onPointerMove={handlePointerMove}
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}

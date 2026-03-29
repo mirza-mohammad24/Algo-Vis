@@ -210,30 +210,30 @@ export function RacePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-8 min-h-[90vh]">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 min-h-[90vh]">
       {/* Configuration Panel */}
-      <div className="flex flex-col gap-6 p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col gap-6 p-4 sm:p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               Algorithm Race
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-1">
               Configure your matchup. Max 4 competitors.
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
             <button
               onClick={handleStartRace}
               disabled={isRacing || activeAlgorithms.length === 0}
-              className="px-8 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors shadow-sm"
+              className="flex-1 sm:flex-none px-6 sm:px-8 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors shadow-sm"
             >
               Start Race
             </button>
             <button
               onClick={handleResetRace}
-              className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold rounded-lg transition-colors"
+              className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold rounded-lg transition-colors"
             >
               New Dataset
             </button>
@@ -243,7 +243,7 @@ export function RacePage() {
         <div className="h-px w-full bg-slate-200 dark:bg-slate-800" />
 
         {/* Controls Grid */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-end">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch lg:items-end">
           {/* Add Competitor */}
           <div className="flex-1 w-full space-y-2">
             <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
@@ -254,7 +254,7 @@ export function RacePage() {
                 value={selectedAlgoToAdd}
                 onChange={(e) => setSelectedAlgoToAdd(e.target.value)}
                 disabled={activeAlgorithms.length >= 4 || isRacing}
-                className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-4 py-2 disabled:opacity-50 outline-none focus:border-blue-500 transition-colors"
+                className="flex-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-lg px-3 sm:px-4 py-2 disabled:opacity-50 outline-none focus:border-blue-500 transition-colors text-sm sm:text-base"
               >
                 {availableToAdd.map((algo) => (
                   <option key={algo.id} value={algo.id}>
@@ -271,7 +271,7 @@ export function RacePage() {
                   !selectedAlgoToAdd ||
                   availableToAdd.length === 0
                 }
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-semibold rounded-lg disabled:opacity-50 transition-colors"
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-semibold rounded-lg disabled:opacity-50 transition-colors text-sm sm:text-base"
               >
                 Add
               </button>
@@ -279,9 +279,9 @@ export function RacePage() {
           </div>
 
           {/* Environment Sliders */}
-          <div className="flex-1 w-full flex gap-6">
+          <div className="flex-1 w-full flex flex-col sm:flex-row gap-6">
             <div className="flex-1 space-y-2">
-              <label className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <label className="flex justify-between text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 <span>Array Size</span>
                 <span className="text-blue-600 dark:text-blue-400">{arraySize}</span>
               </label>
@@ -301,7 +301,7 @@ export function RacePage() {
             </div>
 
             <div className="flex-1 space-y-2">
-              <label className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <label className="flex justify-between text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                 <span>Speed Delay</span>
                 <span className="text-blue-600 dark:text-blue-400">{speed}ms</span>
               </label>
@@ -357,16 +357,16 @@ export function RacePage() {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-slate-800 p-1 overflow-hidden"
+              className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-200 dark:border-slate-800 p-1 overflow-hidden"
             >
               {/* Decorative Header Glow */}
-              <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-yellow-500/20 to-transparent dark:from-yellow-500/10 pointer-events-none" />
+              <div className="absolute top-0 left-0 w-full h-24 sm:h-32 bg-gradient-to-b from-yellow-500/20 to-transparent dark:from-yellow-500/10 pointer-events-none" />
 
-              <div className="relative p-8">
+              <div className="relative p-5 sm:p-8">
                 {/* Close Button */}
                 <button
                   onClick={() => setShowLeaderboard(false)}
-                  className="absolute top-6 right-6 p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
@@ -378,13 +378,13 @@ export function RacePage() {
                   </svg>
                 </button>
 
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-3">
+                <div className="text-center mb-6 sm:mb-8">
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-3">
                     Race Results
                   </h2>
                 </div>
 
-                <div className="space-y-4 mb-8">
+                <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                   {raceResults.map((result, index) => (
                     <motion.div
                       key={result.id}
@@ -392,12 +392,12 @@ export function RacePage() {
                       // Scale up the 1st place row slightly so it literally stands out
                       animate={{ opacity: 1, x: 0, scale: index === 0 ? 1.03 : 1 }}
                       transition={{ delay: index * 0.15 + 0.2 }}
-                      className={`flex items-center justify-between p-4 rounded-xl border-2 ${getRankStyles(index)}`}
+                      className={`flex items-center justify-between p-3 sm:p-4 rounded-xl border-2 ${getRankStyles(index)}`}
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="w-8 flex justify-center">
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="w-6 sm:w-8 flex justify-center">
                           <span
-                            className={`text-2xl font-black italic ${
+                            className={`text-xl sm:text-2xl font-black italic ${
                               index === 0
                                 ? 'text-yellow-600 dark:text-yellow-500 drop-shadow-sm'
                                 : index === 1
@@ -412,14 +412,14 @@ export function RacePage() {
                         </div>
 
                         <span
-                          className={`font-bold ${index === 0 ? 'text-slate-900 dark:text-white text-lg' : 'text-slate-700 dark:text-slate-200'}`}
+                          className={`font-bold text-sm sm:text-base ${index === 0 ? 'text-slate-900 dark:text-white text-base sm:text-lg' : 'text-slate-700 dark:text-slate-200'}`}
                         >
                           {result.name}
                         </span>
                       </div>
 
                       <div
-                        className={`text-sm font-mono font-bold px-3 py-1.5 rounded-md shadow-inner border ${
+                        className={`text-[10px] sm:text-sm font-mono font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-md shadow-inner border ${
                           index === 0
                             ? 'bg-white/80 dark:bg-slate-900/80 text-yellow-700 dark:text-yellow-400 border-yellow-200 dark:border-yellow-700/50'
                             : 'bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700/50'
@@ -431,16 +431,16 @@ export function RacePage() {
                   ))}
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <button
                     onClick={() => setShowLeaderboard(false)}
-                    className="flex-1 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold rounded-xl transition-colors"
+                    className="flex-1 py-2.5 sm:py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-bold rounded-xl transition-colors text-sm sm:text-base"
                   >
                     View Arrays
                   </button>
                   <button
                     onClick={handleResetRace}
-                    className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-sm"
+                    className="flex-1 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-sm text-sm sm:text-base"
                   >
                     Race Again
                   </button>

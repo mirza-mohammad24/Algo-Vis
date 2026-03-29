@@ -99,42 +99,42 @@ export function Controls({
   };
 
   return (
-    <div className="flex flex-col gap-5 p-5 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
+    <div className="flex flex-col gap-5 p-4 sm:p-5 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors duration-300">
       {/* Row 1: Playback buttons */}
-      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 items-center">
+      <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3 items-center">
         <button
           onClick={onPlay}
           disabled={isRunning || isDone}
-          className="w-full sm:w-auto px-6 py-2.5 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 dark:bg-blue-500 text-white text-sm sm:text-base font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           Play
         </button>
         <button
           onClick={onPause}
           disabled={!isRunning}
-          className="w-full sm:w-auto px-6 py-2.5 bg-slate-600 dark:bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-700 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-slate-600 dark:bg-slate-700 text-white text-sm sm:text-base font-medium rounded-lg hover:bg-slate-700 dark:hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           Pause
         </button>
         <button
           onClick={onStep}
           disabled={isRunning || isDone}
-          className="w-full sm:w-auto px-6 py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-transparent dark:border-slate-700"
+          className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm sm:text-base font-medium rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-transparent dark:border-slate-700"
         >
           Step
         </button>
         <button
           onClick={onReset}
-          className="col-span-2 sm:col-span-1 w-full sm:w-auto px-6 py-2.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors sm:ml-auto"
+          className="col-span-2 sm:col-span-1 w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-sm sm:text-base font-medium rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors sm:ml-auto"
         >
           New Array
         </button>
       </div>
 
       {/* Row 2: Sliders + algorithm selector */}
-      <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-start sm:items-center p-4 rounded-lg bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800/50">
+      <div className="flex flex-col lg:flex-row flex-wrap gap-6 lg:gap-4 items-stretch lg:items-center p-4 rounded-lg bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800/50">
         {/* Algorithm selector */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between lg:justify-start gap-3">
           <label htmlFor="algo-select" className={labelClass}>
             Algorithm
           </label>
@@ -146,7 +146,7 @@ export function Controls({
               const selected = algorithms.find((a) => a.name === e.target.value);
               if (selected) onAlgorithmChange(selected);
             }}
-            className="w-44 px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 disabled:opacity-50 transition-colors shadow-sm"
+            className="flex-1 lg:w-44 px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 disabled:opacity-50 transition-colors shadow-sm"
           >
             {algorithms.map((algo) => (
               <option key={algo.name} value={algo.name}>
@@ -156,62 +156,69 @@ export function Controls({
           </select>
         </div>
 
-        <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
+        <div className="hidden lg:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
         {/* Array size */}
         <div className="flex items-center gap-3">
           <label className={labelClass}>Array size</label>
-          <ElasticSlider
-            startingValue={10}
-            maxValue={1000}
-            defaultValue={arraySize}
-            isStepped
-            stepSize={1}
-            onChange={handleSizeSliderChange}
-            disabled={isRunning}
-          />
-          <input
-            type="number"
-            min="10"
-            max="1000"
-            value={localSize}
-            disabled={isRunning}
-            onChange={(e) => setLocalSize(e.target.value)}
-            onBlur={commitSize}
-            onKeyDown={(e) => handleKeyDown(e, commitSize)}
-            className={numberInputClass}
-          />
+          <div className="flex-1 flex items-center gap-3">
+            <ElasticSlider
+              startingValue={10}
+              maxValue={1000}
+              defaultValue={arraySize}
+              isStepped
+              stepSize={1}
+              onChange={handleSizeSliderChange}
+              disabled={isRunning}
+              className="flex-1"
+            />
+            <input
+              type="number"
+              min="10"
+              max="1000"
+              value={localSize}
+              disabled={isRunning}
+              onChange={(e) => setLocalSize(e.target.value)}
+              onBlur={commitSize}
+              onKeyDown={(e) => handleKeyDown(e, commitSize)}
+              className={numberInputClass}
+            />
+          </div>
         </div>
 
-        <div className="hidden sm:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
+        <div className="hidden lg:block w-px h-8 bg-slate-200 dark:bg-slate-700" />
 
         {/* Delay */}
         <div className="flex items-center gap-3">
           <label className={labelClass}>Delay (ms)</label>
-          <ElasticSlider
-            startingValue={0}
-            maxValue={200}
-            defaultValue={50}
-            isStepped
-            stepSize={1}
-            onChange={handleSpeedSliderChange}
-            disabled={isRunning}
-          />
-          <input
-            type="number"
-            min="0"
-            max="200"
-            value={localSpeed}
-            disabled={isRunning}
-            onChange={(e) => setLocalSpeed(e.target.value)}
-            onBlur={commitSpeed}
-            onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
-            className={numberInputClass}
-          />
+          <div className="flex-1 flex items-center gap-3">
+            <ElasticSlider
+              startingValue={0}
+              maxValue={200}
+              defaultValue={50}
+              isStepped
+              stepSize={1}
+              onChange={handleSpeedSliderChange}
+              disabled={isRunning}
+              className="flex-1"
+            />
+            <input
+              type="number"
+              min="0"
+              max="200"
+              value={localSpeed}
+              disabled={isRunning}
+              onChange={(e) => setLocalSpeed(e.target.value)}
+              onBlur={commitSpeed}
+              onKeyDown={(e) => handleKeyDown(e, commitSpeed)}
+              className={numberInputClass}
+            />
+          </div>
         </div>
 
-        {/*Sound Toggle */}
-        <div className="flex items-center">
+        {/*Sound Toggle & Status Badge Container */}
+        <div className="flex items-center justify-between lg:justify-end gap-4 lg:ml-auto">
+          {/*Sound Toggle */}
           <button
             onClick={onToggleSound}
             className={`flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md border transition-all duration-300 ${
@@ -230,7 +237,7 @@ export function Controls({
                     d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
                   />
                 </svg>
-                Sound On
+                <span className="hidden xs:inline">Sound On</span>
               </>
             ) : (
               <>
@@ -248,14 +255,12 @@ export function Controls({
                     d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
                   />
                 </svg>
-                Sound Off
+                <span className="hidden xs:inline">Sound Off</span>
               </>
             )}
           </button>
-        </div>
 
-        {/* Status badge */}
-        <div className="sm:ml-auto">
+          {/* Status badge */}
           <span className="px-4 py-1.5 bg-slate-200 dark:bg-slate-800 rounded-full text-slate-700 dark:text-slate-300 uppercase tracking-widest text-xs font-bold">
             {status}
           </span>

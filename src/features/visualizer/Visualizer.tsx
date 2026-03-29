@@ -106,20 +106,20 @@ export function Visualizer() {
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Header & Metrics */}
-      <div className="flex justify-between items-end">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100">
             Sorting Visualizer
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">
             Currently executing: {`${currentAlgorithm.name}`}
           </p>
         </div>
 
         {/* Real-time Engine Metrics */}
-        <div className="flex gap-6 text-sm">
+        <div className="flex gap-4 sm:gap-6 text-sm w-full md:w-auto justify-between md:justify-end">
           <div className="flex flex-col items-end">
             <span className="text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider text-xs">
               Comparisons
