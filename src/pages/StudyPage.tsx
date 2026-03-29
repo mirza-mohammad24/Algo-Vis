@@ -485,7 +485,10 @@ export function StudyPage() {
                 >
                   {label}
                 </div>
-                <div className={`text-[10px] sm:text-xs font-bold font-mono truncate ${colour}`}>
+                {/* REMOVED 'truncate', ADDED overflow and whitespace controls */}
+                <div
+                  className={`text-[10px] sm:text-xs font-bold font-mono overflow-x-auto no-scrollbar whitespace-nowrap ${colour}`}
+                >
                   {value}
                 </div>
               </div>
