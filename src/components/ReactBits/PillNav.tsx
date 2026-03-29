@@ -23,7 +23,7 @@ export interface PillNavProps {
   children?: React.ReactNode;
 }
 
-type Direction = 'forward' | 'reverse';
+// type Direction = 'forward' | 'reverse';
 
 const PillNav: React.FC<PillNavProps> = ({
   logo,
