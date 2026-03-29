@@ -23,7 +23,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 type PlayNoteFn = (value: number, maxVal: number) => void;
 
 export function useAudioEngine(): [PlayNoteFn, boolean, () => void] {
-  const [isEnabled, setIsEnabled] = useState(true); //enabled by default
+  const [isEnabled, setIsEnabled] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
   /**
