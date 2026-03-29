@@ -15,16 +15,26 @@ import { VisualizerPage } from './pages/VisualizerPage.tsx';
 import { RacePage } from './pages/RacePage.tsx';
 import { StudyPage } from './pages/StudyPage.tsx';
 import { ComplexityPage } from './pages/ComplexityPage.tsx';
+import { ScrollToTop } from './utils/ScrollToTop.tsx';
 
 function AppLayout() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300 flex flex-col">
+      <ScrollToTop/>
       <Navbar />
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" 
+          element={
+            <ErrorBoundary>
+              <Home />
+            </ErrorBoundary>
+          } 
+          />
+
           <Route path="/visualizer" element={<VisualizerPage />} />
+
           <Route
             path="/race"
             element={
@@ -33,6 +43,7 @@ function AppLayout() {
               </ErrorBoundary>
             }
           />
+
           <Route
             path="/study"
             element={
@@ -41,6 +52,7 @@ function AppLayout() {
               </ErrorBoundary>
             }
           />
+
           <Route
             path="/complexity"
             element={
@@ -49,6 +61,7 @@ function AppLayout() {
               </ErrorBoundary>
             }
           />
+
         </Routes>
       </main>
 
