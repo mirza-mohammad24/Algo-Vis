@@ -286,20 +286,6 @@ public/
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome. If you find a bug or want to add a feature:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'Add your feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Open a Pull Request
-
-Please maintain the existing TypeScript interface contracts in `src/types/sort.ts` — they are the contract between the engine, the algorithms, and the UI. Any new algorithm must be implemented as an `async function*` that yields `SortFrame` objects and satisfies the `SortGenerator` type.
-
----
-
 ## 📄 License
 
 This project is distributed under the MIT License.
