@@ -128,19 +128,21 @@ export function RacePage() {
   const [selectedAlgoToAdd, setSelectedAlgoToAdd] = useState<string>(ALGORITHMS[2]?.id || '');
 
   //The master array that acts as the single source of truth for all lanes
+  //memo ensures that it is only regenerated when the arraySize changes no
+  //matter how many time the component re renders
   const masterArray = useMemo(() => generateArray(arraySize), [arraySize]);
   const laneRefs = useRef<(RaceLaneHandle | null)[]>([]);
 
   //Sync the refs array to match the active competitors
   useEffect(() => {
     laneRefs.current = laneRefs.current.slice(0, activeAlgorithms.length);
-  }, [activeAlgorithms]);
+  }, [activeAlgorithms]); //if activeAlgorithms change update the laneRefs correspondingly
 
   const handleStartRace = () => {
     setRaceResults([]); // Clear previous leaderboard
     setShowLeaderboard(false);
     setIsRacing(true);
-    laneRefs.current.forEach((lane) => lane?.play());
+    laneRefs.current.forEach((lane) => lane?.play()); //start each of the play for each race lane
   };
 
   const handleResetRace = () => {
@@ -148,17 +150,18 @@ export function RacePage() {
     setShowLeaderboard(false);
     setRaceResults([]);
     const newMasterArray = generateArray(arraySize);
-    laneRefs.current.forEach((lane) => lane?.reset(newMasterArray));
+    laneRefs.current.forEach((lane) => lane?.reset(newMasterArray)); //provide new array to each competitor
   };
 
   // Callback passed to RaceLane. Pushes naturally in order of finish (1st, 2nd, etc.)
   const handleLaneFinish = useCallback(
     (id: string, timeMs: number) => {
       setRaceResults((prev) => {
-        if (prev.some((r) => r.id === id)) return prev; // Prevent duplicate entries
-        const algo = activeAlgorithms.find((a) => a.id === id);
-        if (!algo) return prev;
-        return [...prev, { id, name: algo.name, timeMs }];
+        if (prev.some((r) => r.id === id)) return prev; // Prevent duplicate entries if the finished is already on leaderboard do not add again
+
+        const algo = activeAlgorithms.find((a) => a.id === id); //find the algo corresponding to the id that finished
+        if (!algo) return prev; //if null then return prev so that everything remains same
+        return [...prev, { id, name: algo.name, timeMs }]; //spread the prev and add this new object as well
       });
     },
     [activeAlgorithms]
@@ -169,16 +172,17 @@ export function RacePage() {
 
     const algo = ALGORITHMS.find((a) => a.id === selectedAlgoToAdd);
     if (algo && !activeAlgorithms.find((a) => a.id === algo.id)) {
-      setActiveAlgorithms((prev) => [...prev, algo]);
-      handleResetRace();
+      setActiveAlgorithms((prev) => [...prev, algo]); //new competitor added
+      handleResetRace(); //reset the race instantly since new competitor came
     }
   };
 
   const handleRemoveAlgorithm = (idToRemove: string) => {
-    setActiveAlgorithms((prev) => prev.filter((a) => a.id !== idToRemove));
-    handleResetRace();
+    setActiveAlgorithms((prev) => prev.filter((a) => a.id !== idToRemove)); //remove the algo
+    handleResetRace(); //reset the race instantly one competitor left
   };
 
+  //small utility to check if this algo can be added (to prevent adding the same competitors)
   const availableToAdd = ALGORITHMS.filter(
     (algo) => !activeAlgorithms.find((active) => active.id === algo.id)
   );

@@ -8,6 +8,11 @@
  * Includes an internal high-resolution stopwatch to report completion times.
  */
 
+/**
+ * forwardRef passes the ref
+ * useImperativeHandle controls what the ref exposes
+ */
+
 import { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useSortEngine } from '../../hooks/useSortEngine.ts';
 import { CanvasVisualizer } from '../visualizer/CanvasVisualizer.tsx';
@@ -28,7 +33,13 @@ interface RaceLaneProps {
   onFinish: (id: string, timeMs: number) => void;
 }
 
+
+//forwardRef<HandleType, PropsType>  that means:
+//RaceLaneHandle → what ref.current will be
+//RaceLaneProps → normal props
 export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
+
+  //receives ref as second argument and the first argument is RaceLaneProps unpacked
   ({ algorithm, initialArray, speed, onRemove, onFinish }, ref) => {
     //High resolution time ref to track exact execution duration
     const startTimeRef = useRef<number | null>(null);
@@ -44,7 +55,9 @@ export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
       setSpeed(speed);
     }, [speed, setSpeed]);
 
+    //Expose only what is required
     //Expose imperative controls to the orchestrator (Race Page)
+    //play:, reset: is different from what we receive from the engine the same name is used do not get confused
     useImperativeHandle(ref, () => ({
       play: () => {
         startTimeRef.current = performance.now(); //Start the stopwatch
@@ -61,10 +74,10 @@ export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
     useEffect(() => {
       if (state.status === 'completed' && startTimeRef.current !== null) {
         const elapsed = performance.now() - startTimeRef.current;
-        onFinish(algorithm.id || algorithm.name, elapsed);
+        onFinish(algorithm.id || algorithm.name, elapsed); //tell the parent this lane is done and pass id || name, elapsed time
         startTimeRef.current = null; //Clear ref to prevent duplicate triggers
       }
-    }, [state.status, algorithm, onFinish]);
+    }, [state.status, algorithm, onFinish]); //every time the status will change we will check
 
     return (
       <div className="flex flex-col bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">

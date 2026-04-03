@@ -158,7 +158,7 @@ end procedure`,
   },
 };
 
-/** Glow colour (blue-500) — works on both the light and dark cards */
+/** Glow color (blue-500) — works on both the light and dark cards */
 const GLOW = '59, 130, 246';
 
 export function AlgorithmInfo({ algorithmName }: AlgorithmInfoProps) {

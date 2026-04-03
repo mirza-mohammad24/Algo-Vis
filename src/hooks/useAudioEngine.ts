@@ -56,7 +56,7 @@ export function useAudioEngine(): [PlayNoteFn, boolean, () => void] {
     (value: number, maxVal: number) => {
       if (!isEnabled) return;
 
-      //Failsafe initialization in case it wsn't caught by the toggle
+      //Failsafe initialization in case it wasn't caught by the toggle
       if (!audioCtxRef.current) {
         const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
         if (!AudioContextClass) return; // Browser does not support Web Audio API
@@ -78,7 +78,8 @@ export function useAudioEngine(): [PlayNoteFn, boolean, () => void] {
       const oscillator = ctx.createOscillator();
       const gainNode = ctx.createGain();
 
-      //'triangle' and 'sine' provide smoother  retro style beeps without harsh overtones
+      //'triangle' and 'sine' provide retro style beeps and smooth beep respectively without harsh overtones
+      //we are choosing triangle here
       oscillator.type = 'triangle';
       oscillator.frequency.setValueAtTime(freq, ctx.currentTime);
 

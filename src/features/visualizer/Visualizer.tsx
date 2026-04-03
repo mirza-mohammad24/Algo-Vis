@@ -52,7 +52,8 @@ export function Visualizer() {
   //Track the currently selected algorithm (Default to Bubble sort)
   const [currentAlgorithm, setCurrentAlgorithm] = useState<SortAlgorithm>(ALGORITHMS[0]);
 
-  //Generate initial array only when component mounts or size changes or when new algorithm is selected or reset is done
+  //Generate initial array only when component mounts or size changes or when new algorithm
+  //is selected or reset is done
   //last three changes are implemented below in handleSizeChange and handleAlgorithmChange
   const initialArray = useMemo(() => generateArray(arraySize), [arraySize]);
 
@@ -62,7 +63,7 @@ export function Visualizer() {
   //Initialize the Sort Engine
   const { state, play, pause, step, reset, setSpeed } = useSortEngine(currentAlgorithm, {
     array: initialArray,
-    speed: 50,
+    speed: 50, //default delay of 50ms
   });
 
   // Calculate the max value of the current array for frequency mapping.

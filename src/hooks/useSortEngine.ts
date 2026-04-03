@@ -62,7 +62,7 @@ function updateMetrics(metrics: SortMetrics, operation: SortOperation): SortMetr
 /**
  * The primary controller hook for the sorting visualizer.
  *
- * @param algorithm - The specific sorting algorithm object containing the respective generator.
+ * @param algorithm - The specific sorting algorithm object containing the respective generator(defined in algorithms dir).
  * @param config - Initial setup parameters (speed, starting array).
  */
 
@@ -85,6 +85,10 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
 
   // INTERNAL MUTABLE STATE (Does NOT Trigger Renders)
   /** Holds the active generator instance. Preserved across renders. */
+  /**
+   * ReturnType<(array: readonly number[]) => SortGenerator> resolves to SortGenerator
+   * so basically useRef<SortGenerator | null>(null)
+   */
   const generatorRef = useRef<ReturnType<SortAlgorithm['generator']> | null>(null);
   /** Master kill-switch for the execution loop. */
   const isRunningRef = useRef(false);
@@ -194,7 +198,7 @@ export function useSortEngine(algorithm: SortAlgorithm, config: SortConfig) {
   const play = useCallback(() => {
     if (!generatorRef.current) return;
 
-    run();
+    run(); //call the primary loop(engine's core)
   }, [run]);
 
   /**Pause Execution*/

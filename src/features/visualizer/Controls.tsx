@@ -4,12 +4,6 @@
  * @description
  * Provides interactive controls for the sorting execution.
  * Maps user input directly to the engine's exposed API methods.
- *
- * Changes from v1:
- *  - ElasticSlider replaces the native <input type="range"> for Size and Delay
- *  - Number inputs have spinners (up/down arrows) removed via Tailwind's
- *    [appearance:textfield] and pseudo-element utilities
- *  - Label + control groups use a tight flex row so nothing spreads apart
  */
 
 import { useState, useEffect } from 'react';

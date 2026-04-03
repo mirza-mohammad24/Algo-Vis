@@ -145,6 +145,7 @@ export interface SortAlgorithm {
 
   /**
    * Entry point for algorithm execution.
+   * a function that accepts and array as input and returns SortGenerator type control object
    */
   generator: (array: readonly number[]) => SortGenerator;
 }
