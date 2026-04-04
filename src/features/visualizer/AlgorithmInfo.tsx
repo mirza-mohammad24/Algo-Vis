@@ -5,6 +5,7 @@
  */
 
 import { ParticleCard } from '../../components/ReactBits/MagicBento';
+import PropTypes from 'prop-types';
 
 interface AlgorithmInfoProps {
   algorithmName: string;
@@ -304,3 +305,12 @@ export function AlgorithmInfo({ algorithmName }: AlgorithmInfoProps) {
     </div>
   );
 }
+
+/**
+ * Runtime prop type validation using the prop-types library.
+ * Ensures `algorithmName` is always a required string at runtime,
+ * complementing the compile-time TypeScript interface above.
+ */
+AlgorithmInfo.propTypes = {
+  algorithmName: PropTypes.string.isRequired,
+};

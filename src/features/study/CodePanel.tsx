@@ -39,9 +39,9 @@ interface LangDef {
 const LANGUAGES: LangDef[] = [
   { id: 'python', label: 'Python', accent: '#3b82f6', badge: 'bg-blue-500' },
   { id: 'java', label: 'Java', accent: '#f97316', badge: 'bg-orange-500' },
-  { id: 'cpp', label: 'C++', accent: '#06b6d4', badge: 'bg-cyan-500' },
   { id: 'javascript', label: 'JS', accent: '#eab308', badge: 'bg-yellow-400' },
   { id: 'c', label: 'C', accent: '#6366f1', badge: 'bg-indigo-500' },
+  { id: 'cpp', label: 'C++', accent: '#06b6d4', badge: 'bg-cyan-500' },
   { id: 'csharp', label: 'C#', accent: '#a855f7', badge: 'bg-purple-500' },
 ];
 

@@ -297,6 +297,7 @@ function tokenizeLine(line: string, language: SupportedLanguage): Token[] {
     if (line[i] === "'") {
       let j = i + 1;
       while (j < line.length && !(line[j] === "'" && line[j - 1] !== '\\')) j++;
+
       j = Math.min(j + 1, line.length);
       tokens.push({ type: 'string', value: line.slice(i, j) });
       i = j;
@@ -307,6 +308,7 @@ function tokenizeLine(line: string, language: SupportedLanguage): Token[] {
     if (/[a-zA-Z_]/.test(line[i])) {
       let j = i;
       while (j < line.length && /\w/.test(line[j])) j++;
+
       const word = line.slice(i, j);
 
       let type: TokenType;
@@ -378,6 +380,9 @@ export function SyntaxHighlighter({ code, language }: SyntaxHighlighterProps) {
 
   return (
     <>
+      {/**<React.Fragment>. We use this instead of a <div>
+         because <div> is a block element and would force weird layouts. Fragments are invisible wrappers.
+       */}
       {lines.map((line, lineIdx) => {
         const tokens = tokenizeLine(line, language);
         return (

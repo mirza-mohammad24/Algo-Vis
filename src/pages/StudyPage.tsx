@@ -337,7 +337,7 @@ export function StudyPage() {
                 Code Studio
               </h1>
               <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
-                Live execution · N={STUDY_ARRAY_SIZE}
+                Live execution · N={STUDY_ARRAY_SIZE} · Delay={STUDY_SPEED_MS}ms
               </p>
             </div>
           </div>

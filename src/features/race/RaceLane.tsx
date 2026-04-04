@@ -33,12 +33,10 @@ interface RaceLaneProps {
   onFinish: (id: string, timeMs: number) => void;
 }
 
-
 //forwardRef<HandleType, PropsType>  that means:
 //RaceLaneHandle → what ref.current will be
 //RaceLaneProps → normal props
 export const RaceLane = forwardRef<RaceLaneHandle, RaceLaneProps>(
-
   //receives ref as second argument and the first argument is RaceLaneProps unpacked
   ({ algorithm, initialArray, speed, onRemove, onFinish }, ref) => {
     //High resolution time ref to track exact execution duration

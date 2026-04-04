@@ -11,7 +11,6 @@
  * on-theme error message rather than a broken, empty screen.
  */
 
-
 import { Link } from 'react-router-dom';
 
 export function NotFound() {
